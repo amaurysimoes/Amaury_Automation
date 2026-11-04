@@ -17,6 +17,7 @@ Adicione as alterações, crie um commit com uma mensagem curta e envie para o G
 
 ```powershell
 git add -A
+git add .    (muito melhor usar assim)
 git commit -m "Descreva a atualização"
 git push
 ```
