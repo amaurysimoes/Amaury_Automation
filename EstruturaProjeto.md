@@ -68,14 +68,16 @@ Amaury_Automation/
 
 - `index.html`: documento HTML e elemento raiz onde o React será montado.
 - `src/main.jsx`: entrada JavaScript, imports e montagem do React.
-- `src/App.jsx`: componente da página inicial.
-- `src/styles.css`: paleta, layout, tipografia e responsividade.
+- `src/App.jsx`: componente da página inicial e seletor deslizante de tema.
+- `src/styles.css`: temas claro/escuro, paleta, layout, tipografia e responsividade.
 - `package.json`: dependências e comandos npm.
 - `vite.config.js`: configuração do Vite e plugin React.
 - `package-lock.json`: versões resolvidas pelo npm; mantenha-o no Git.
 - `.gitignore`: arquivos gerados/localmente que não devem ser enviados ao Git.
 - `img/circuito-azul.svg`: ícone oficial; seu azul `#2B3CF5` é usado nos destaques.
 - `public/img/`: cópias dos ícones servidas pelo Vite, incluindo favicon e imagem da página.
+- O seletor salva o tema em `localStorage`, conserva a escolha após recarregar e sincroniza abas abertas do mesmo site.
+- A página usa layout próprio de workspace, com sidebar responsiva, breadcrumb e área preparada para projetos. O tema escuro é padrão e pode ser trocado para claro pelo seletor do cabeçalho.
 
 ## 4. Configurar `package.json`
 
@@ -162,34 +164,11 @@ createRoot(document.getElementById('root')).render(
 
 ## 8. Criar a página em `src/App.jsx`
 
-O componente inicial tem um título principal e a assinatura. `aria-hidden` marca os elementos meramente decorativos para que leitores de tela os ignorem:
-
-```jsx
-function App() {
-  return (
-    <main className="landing">
-      <div className="landing__glow" aria-hidden="true" />
-      <section className="intro" aria-labelledby="page-title">
-        <img
-          className="intro__logo"
-          src="./img/circuito-azul.svg"
-          alt=""
-          aria-hidden="true"
-        />
-        <span className="intro__accent" aria-hidden="true" />
-        <h1 id="page-title">Projetos em Desenvolvimento.</h1>
-        <p className="intro__name">Amaury Huerb</p>
-      </section>
-    </main>
-  );
-}
-
-export default App;
-```
+O componente atual monta uma workspace própria com navegação lateral, cabeçalho com breadcrumb, seletor deslizante de tema e área central pronta para receber projetos. O layout é original; a referência visual serve apenas como inspiração estrutural. O código completo está em `src/App.jsx` e os estilos responsivos em `src/styles.css`.
 
 ## 9. Estilizar em `src/styles.css`
 
-Declare as cores no `:root` para manter o tema consistente e fácil de alterar:
+Declare os tokens de tema no `:root`. O modo escuro é o padrão; `:root[data-theme="light"]` sobrescreve as variáveis para o modo claro. O azul oficial `#2B3CF5` e a logo devem ser mantidos nos dois temas:
 
 ```css
 :root {
@@ -209,15 +188,14 @@ Declare as cores no `:root` para manter o tema consistente e fácil de alterar:
 Complete o CSS seguindo estas etapas:
 
 1. Aplique `box-sizing: border-box` globalmente e remova a margem padrão do `body`.
-2. Dê ao `body` e ao `#root` altura mínima de `100vh`, usando `var(--background)` como fundo.
-3. Torne `.landing` uma grade CSS com `place-items: center`, `min-height: 100vh` e espaçamento interno para telas pequenas.
-4. Desenhe a grade decorativa usando gradientes lineares no pseudo-elemento `body::before`.
-5. Desenhe o brilho azul decorativo em `.landing__glow` com um gradiente radial.
-6. Centralize o conteúdo de `.intro`; use `clamp()` no título para adaptar o tamanho da fonte à largura da tela.
-7. Use `var(--accent)` no detalhe azul e `var(--text-muted)` na assinatura.
-8. Use uma media query (por exemplo, `max-width: 520px`) para ajustar espaçamentos em telas estreitas.
+2. Organize `.app-shell` em duas colunas: navegação lateral e workspace principal.
+3. Use `.topbar` para breadcrumb e seletor de tema, e `.main-content` para o título e a área reservada aos projetos.
+4. Use variáveis CSS para fundo, superfícies, bordas, textos e grades, substituindo-as em `:root[data-theme="light"]`.
+5. Mantenha o seletor compacto, com foco visível, ícones de lua/sol e estado acessível (`role="switch"` e `aria-checked`).
+6. Use media queries para transformar a sidebar em menu móvel e ajustar os espaçamentos em telas pequenas.
+7. Respeite `prefers-reduced-motion` e use o azul oficial `#2B3CF5` nos destaques.
 
-O CSS completo da página está no arquivo `src/styles.css`. Os tokens de superfície e borda ficam declarados para reutilização ao adicionar futuras seções.
+O CSS completo está em `src/styles.css`. A implementação contém layout próprio e responsivo; a estrutura se inspira apenas na organização geral de uma workspace.
 
 ## 10. Executar no navegador
 

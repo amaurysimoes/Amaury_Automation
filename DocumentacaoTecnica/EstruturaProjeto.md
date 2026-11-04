@@ -143,7 +143,17 @@ Este HTML define idioma, metadados, favicon oficial, título da aba e ponto de m
 
 ## 7. `src/App.jsx`
 
-O componente principal mostra o ícone oficial azul, o título e a assinatura. `aria-hidden` marca os elementos decorativos:
+O componente principal define uma estrutura original de workspace: navegação lateral responsiva com a logo existente, cabeçalho com breadcrumb e botão de tema, e área central reservada para projetos. O tema escuro é padrão; o botão permite alternar para o claro e guarda a preferência no navegador.
+
+`src/App.jsx` é a implementação de referência completa. Ele contém ícones SVG locais e código próprio, sem dependência de uma biblioteca de ícones. Para manter a separação de responsabilidades, implemente:
+
+- estados React para tema (inicializado com `localStorage`) e menu lateral móvel;
+- efeito para aplicar `data-theme`, persistir a preferência, sincronizar outras abas e atualizar `meta[name="theme-color"]`;
+- navegação lateral com marca do projeto, seção de projetos e perfil;
+- cabeçalho com menu móvel, breadcrumb e seletor deslizante acessível;
+- área principal vazia, preparada para conteúdo de projetos futuro.
+
+O JSX executável completo e atualizado está em `src/App.jsx`; use esse arquivo como referência ao recriar a interface. O layout se inspira apenas na organização geral de uma workspace, sem copiar código, textos ou elementos visuais da referência.
 
 ```jsx
 function App() {
@@ -187,7 +197,7 @@ createRoot(document.getElementById('root')).render(
 
 ## 9. `src/styles.css`
 
-O CSS completo controla a paleta, a grade de fundo, o brilho azul e a adaptação a telas menores:
+O CSS em `src/styles.css` define os temas claro/escuro, a paleta, a grade de fundo e a adaptação responsiva da workspace:
 
 ```css
 :root {

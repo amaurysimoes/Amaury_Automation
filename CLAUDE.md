@@ -9,9 +9,12 @@ Este arquivo registra o contexto técnico, as decisões, as alterações e o est
 - Repositório GitHub: `https://github.com/amaurysimoes/Amaury_Automation`.
 - Branch de trabalho/publicação: `main`.
 - Stack: JavaScript, React e Vite; não é um projeto Python.
-- Objetivo inicial: página web de apresentação simples com fundo escuro e os textos “Projetos em Desenvolvimento.” e “Amaury Huerb”, para acrescentar outros projetos posteriormente.
+- Objetivo atual: portal para organizar vários projetos, mantendo a área de conteúdo preparada para módulos que serão definidos posteriormente.
+- Layout atual: página única em seções, seguindo apenas a estrutura de `https://master.dev/join/` (cabeçalho com navegação, hero, planos em três grupos, recursos incluídos, logos, depoimentos, FAQ e rodapé). Textos, marca, cores e código do template não são copiados; todo o conteúdo é provisório e as imagens são cinzas.
+- O tema dark é predominante e o padrão. O seletor deslizante permite light, persiste a escolha em `localStorage` e sincroniza abas abertas do mesmo site.
 - Referência de estilo: `C:\Dev-AHS\IA_automation_front`. Foi solicitada apenas a paleta escura, sem copiar componentes, imagens ou funcionalidades.
-- Paleta adotada: fundo `#212121`, texto `#ececec`, azul oficial `#2B3CF5` (extraído do ícone `img/circuito-azul.svg`), superfície `#1f2937`, fundo secundário `#171717` e borda `#2d2d2d`.
+- Paleta atual (tokens em `src/styles.css`, tema dark): fundo `#17191f`, barra/seções alternadas `#13151a`, superfície `#1d2028`, texto `#edf0f7` e azul oficial `#2B3CF5` (extraído do ícone `img/circuito-azul.svg`). A paleta inicial `#212121`/`#ececec` foi substituída na evolução do layout.
+- Imagens provisórias: `public/img/placeholder.svg` (cinza). Cada `<img class="placeholder">` em `src/App.jsx` deve ter seu `src` trocado pela imagem final.
 - Preferência de apresentação do projeto: documentação e commits devem ser escritos como documentação normal do projeto, sem atribuições ou comentários sobre ferramentas de assistência.
 
 ## Estrutura atual
@@ -37,7 +40,8 @@ Amaury_Automation/
 │   ├── CNAME
 │   └── img/
 │       ├── circuito-azul.svg
-│       └── circuito-cinza.svg
+│       ├── circuito-cinza.svg
+│       └── placeholder.svg
 ├── img/
 │   ├── circuito-azul.svg
 │   └── circuito-cinza.svg
@@ -50,9 +54,9 @@ Amaury_Automation/
 
 ### Arquivos importantes
 
-- `src/App.jsx`: componente da página inicial, título, assinatura, ícone oficial e elementos decorativos.
-- `src/main.jsx`: importa o componente e CSS e monta o React em `#root`.
-- `src/styles.css`: paleta (azul oficial `#2B3CF5`), grade de fundo, brilho azul, tipografia, layout e media query para telas estreitas.
+- `src/App.jsx`: página em seções (cabeçalho com menu responsivo e seletor de tema, hero, planos, recursos, logos, depoimentos, FAQ e rodapé). Os dados das seções ficam em constantes no topo do arquivo.
+- `src/main.jsx`: aplica o tema salvo antes da montagem do React, importa o CSS e monta a página em `#root`.
+- `src/styles.css`: tokens de tema (dark por padrão e light), seletor, componentes das seções e responsividade (breakpoints 860px e 600px).
 - `index.html`: HTML inicial, idioma `pt-BR`, metadados, favicon oficial e título da aba.
 - `package.json`: dependências e comandos `dev`, `build` e `preview`.
 - `package-lock.json`: lockfile npm; manter versionado e usar `npm ci` em instalação limpa.
@@ -84,6 +88,10 @@ Amaury_Automation/
 12. Foi solicitado que os arquivos e commits não tenham atribuições ou comentários de ferramentas de assistência. Não adicionar essas atribuições aos novos commits.
 13. Foram fornecidos `img/circuito-azul.svg` e `img/circuito-cinza.svg`. O azul do ícone oficial é exatamente `#2B3CF5`; foi adotado como cor de destaque, no brilho e favicon. Os SVGs são copiados para `public/img` para que o Vite os inclua no build; o ícone azul também é exibido na página inicial.
 14. A cor oficial azul foi aplicada ao token de destaque, aos efeitos de brilho, ao ícone exibido na página e ao favicon. Os SVGs originais e suas cópias em `public/img` permanecem no repositório.
+15. Foi adicionado um botão deslizante para alternar entre tema escuro e claro. A escolha persiste em `localStorage`, atualiza a cor da barra do navegador e sincroniza outras abas abertas. O tema escuro continua sendo o padrão para primeiras visitas.
+16. A página inicial evoluiu para uma workspace original, inspirada apenas na organização geral de uma interface de trabalho: sidebar responsiva, breadcrumb, seletor de tema e área vazia para projetos futuros. O conteúdo e a implementação são próprios; a logo já existente é mantida na navegação.
+17. A identidade visual do ícone oficial foi aplicada (commit `3765831`).
+18. O layout foi reorganizado conforme a estrutura do template `master.dev/join`, substituindo a sidebar/workspace por uma página única com seções. Imagens substituídas por placeholders cinza (`public/img/placeholder.svg`) a serem trocados depois. O texto “Projetos em Desenvolvimento” foi mantido como título do hero.
 
 ## Histórico de commits já enviados
 
@@ -98,6 +106,8 @@ Todos estes commits foram enviados para `origin/main`:
 | `586a4e7` | Documentar publicação do projeto |
 | `d7b888d` | Esclarecer publicação do site como página web |
 | `6c04bdf` | Preparar domínio personalizado para o site |
+| `eec3456` | Registrar histórico e continuidade do projeto |
+| `3765831` | Aplicar identidade visual do ícone oficial |
 
 O commit `ba01788` também incluiu `DocumentacaoTecnica/Git_Push.md`, que já existia no workspace e tinha o URL e os comandos iniciais de GitHub fornecidos para o repositório. O histórico é aditivo; não reescrever/amendar commits existentes.
 
