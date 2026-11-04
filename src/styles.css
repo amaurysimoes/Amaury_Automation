@@ -25,6 +25,7 @@
   --toggle-thumb: #17191f;
   --toggle-shadow: 0 2px 8px rgb(0 0 0 / 35%);
   --hero-image-opacity: 0.32;
+  --neon: #39ff14;
 
   color: var(--text);
   background: var(--background);
@@ -33,23 +34,24 @@
 :root[data-theme="light"] {
   color-scheme: light;
 
-  --background: #f4f6fa;
-  --sidebar: #ffffff;
-  --surface: #ffffff;
-  --surface-raised: #f9fafc;
-  --surface-hover: #f0f2f7;
-  --text: #202431;
-  --text-muted: #6f7686;
-  --text-subtle: #9399a7;
-  --border: rgb(30 36 50 / 9%);
-  --accent-soft: rgb(43 60 245 / 9%);
-  --grid-line: rgb(31 41 55 / 3%);
-  --toggle-background: #f0f2f7;
-  --toggle-border: #dfe3eb;
-  --toggle-text: #454c5b;
-  --toggle-thumb: #ffffff;
+  --background: #d5d8df;
+  --sidebar: #e0e3e9;
+  --surface: #e6e8ee;
+  --surface-raised: #eceef2;
+  --surface-hover: #cdd1d9;
+  --text: #1c202b;
+  --text-muted: #525a6b;
+  --text-subtle: #727a8b;
+  --border: rgb(30 36 50 / 14%);
+  --accent-soft: rgb(43 60 245 / 11%);
+  --grid-line: rgb(31 41 55 / 4%);
+  --toggle-background: #d0d4dc;
+  --toggle-border: #b3b9c5;
+  --toggle-text: #3b4251;
+  --toggle-thumb: #eceef2;
   --toggle-shadow: 0 2px 8px rgb(31 41 55 / 16%);
   --hero-image-opacity: 0.16;
+  --neon: #1f51ff;
 }
 
 * {
@@ -135,7 +137,7 @@ summary:focus-visible {
   align-items: center;
   gap: 10px;
   color: var(--text);
-  font-size: 0.94rem;
+  font-size: calc(0.94rem + 2px);
   font-weight: 650;
   letter-spacing: -0.035em;
   text-decoration: none;
@@ -316,7 +318,7 @@ summary:focus-visible {
 
 .hero {
   position: relative;
-  padding: 84px 0 64px;
+  padding: 84px 0 32px;
   text-align: center;
 }
 
@@ -344,6 +346,28 @@ summary:focus-visible {
   font-weight: 650;
   letter-spacing: -0.045em;
   line-height: 1.1;
+}
+
+.hero__tag {
+  margin: 14px 0 0;
+  color: #39ff14;
+  font-size: calc(0.78rem + 4px);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-shadow:
+    0 0 6px rgb(57 255 20 / 80%),
+    0 0 14px rgb(57 255 20 / 55%),
+    0 0 28px rgb(57 255 20 / 35%);
+  text-transform: uppercase;
+}
+
+/* Tema claro: o verde neon perde força, então o destaque vira azul neon */
+:root[data-theme="light"] .hero__tag {
+  color: #1f51ff;
+  text-shadow:
+    0 0 6px rgb(31 81 255 / 55%),
+    0 0 14px rgb(31 81 255 / 35%),
+    0 0 28px rgb(31 81 255 / 20%);
 }
 
 .hero__lead {
@@ -556,12 +580,184 @@ summary:focus-visible {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 28px;
-  margin-top: 40px;
+}
+
+#recursos {
+  padding-top: 40px;
+}
+
+/* Card com brilho neon ao redor (verde no tema escuro, azul no claro) */
+.feature {
+  padding: 14px;
+  border: 1px solid color-mix(in srgb, var(--neon) 45%, transparent);
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--surface) 70%, transparent);
+  box-shadow:
+    0 0 8px color-mix(in srgb, var(--neon) 35%, transparent),
+    0 0 22px color-mix(in srgb, var(--neon) 18%, transparent);
+  transition: box-shadow 250ms ease, border-color 250ms ease;
+}
+
+/* Brilho que percorre as bordas do card */
+@property --glow-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.feature {
+  position: relative;
+}
+
+.feature::before {
+  position: absolute;
+  inset: -1px;
+  padding: 2px;
+  border-radius: inherit;
+  background: conic-gradient(
+    from var(--glow-angle),
+    transparent 0%,
+    transparent 65%,
+    color-mix(in srgb, var(--neon) 40%, transparent) 80%,
+    var(--neon) 92%,
+    transparent 100%
+  );
+  content: "";
+  filter: drop-shadow(0 0 6px var(--neon));
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box exclude,
+    linear-gradient(#000 0 0);
+  pointer-events: none;
+  animation: border-travel 4s linear infinite;
+}
+
+@keyframes border-travel {
+  to {
+    --glow-angle: 360deg;
+  }
+}
+
+.feature:hover {
+  border-color: color-mix(in srgb, var(--neon) 80%, transparent);
+  box-shadow:
+    0 0 10px color-mix(in srgb, var(--neon) 55%, transparent),
+    0 0 30px color-mix(in srgb, var(--neon) 30%, transparent);
+}
+
+.feature h3,
+.feature p {
+  padding: 0 4px;
 }
 
 .feature__image {
   aspect-ratio: 16 / 10;
   border-radius: 12px;
+}
+
+.feature__link {
+  display: block;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.feature__link .feature__image {
+  transition: transform 250ms ease, opacity 250ms ease;
+}
+
+.feature__link:hover .feature__image {
+  opacity: 0.88;
+  transform: scale(1.03);
+}
+
+/* Seção de destino do card: rolagem suave, descontando o cabeçalho fixo */
+html {
+  scroll-behavior: smooth;
+}
+
+[id] {
+  scroll-margin-top: 84px;
+}
+
+/* Tópico discreto, no canto superior esquerdo */
+.topic {
+  padding: 28px 0 0;
+}
+
+.topic__title {
+  margin: 0;
+  color: var(--text-subtle);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.detail {
+  padding: 12px 0 40px;
+}
+
+.detail__image {
+  aspect-ratio: 16 / 7;
+  margin-top: 32px;
+  border-radius: 14px;
+}
+
+/* Fundo cinza degradê com o símbolo da automação, até as aplicações ficarem prontas */
+.detail__soon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  border: 1px solid var(--neon);
+  background: linear-gradient(135deg, #4b5563 0%, #2f343d 55%, #1f2229 100%);
+  color: rgb(255 255 255 / 45%);
+  animation: neon-pulse 2.8s ease-in-out infinite;
+}
+
+/* Borda neon pulsante com sombra larga (mesma cor --neon dos cards) */
+@keyframes neon-pulse {
+  0%,
+  100% {
+    border-color: color-mix(in srgb, var(--neon) 55%, transparent);
+    box-shadow:
+      0 0 10px color-mix(in srgb, var(--neon) 35%, transparent),
+      0 0 32px color-mix(in srgb, var(--neon) 20%, transparent),
+      0 0 64px color-mix(in srgb, var(--neon) 10%, transparent);
+  }
+
+  50% {
+    border-color: var(--neon);
+    box-shadow:
+      0 0 14px color-mix(in srgb, var(--neon) 75%, transparent),
+      0 0 44px color-mix(in srgb, var(--neon) 45%, transparent),
+      0 0 90px color-mix(in srgb, var(--neon) 25%, transparent);
+  }
+}
+
+.detail__soon img {
+  width: 64px;
+  height: 64px;
+  filter: brightness(1.9);
+  opacity: 0.8;
+}
+
+.detail__soon span {
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.detail__back {
+  display: inline-block;
+  margin-top: 24px;
+  color: var(--text-muted);
+  font-size: 0.85rem;
 }
 
 .feature h3 {
@@ -745,7 +941,7 @@ summary:focus-visible {
   }
 
   .hero {
-    padding: 56px 0 44px;
+    padding: 56px 0 24px;
   }
 
   .plan-grid,
@@ -782,6 +978,7 @@ summary:focus-visible {
   *,
   *::before,
   *::after {
+    animation: none !important;
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
   }

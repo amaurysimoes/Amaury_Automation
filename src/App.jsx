@@ -3,35 +3,44 @@ import { useEffect, useState } from 'react';
 const THEME_STORAGE_KEY = 'amaury-automation-theme';
 const PLACEHOLDER = './img/placeholder.svg';
 
-const NAV_LINKS = ['Trilhas', 'Projetos'];
+const NAV_LINKS = [
+  { label: 'Projetos Exemplo', href: '#recursos' },
+  { label: 'Teste e Downloads', href: '#teste-downloads' },
+];
 
 const FEATURES = [
   {
+    id: 'iot',
     title: 'Aplicações IOT',
     image: './img/iot.jpg',
     description: 'Projetos de Integração com dispositivos Residenciais e Móveis.',
   },
   {
+    id: 'automacao',
     title: 'IA e Automação',
     image: './img/automacao.jpg',
     description: 'Projetos de Automação e Integração de Hardwares com IA',
   },
   {
+    id: 'web-mobile',
     title: 'Web e Mobile',
     image: './img/webmob.jpg',
     description: 'Desenvolvimento Back End, Front e App Mobile',
   },
   {
+    id: 'em-desenvolvimento-1',
     title: 'Em Desenvolvimento',
     image: './img/pci.jpg',
     description: 'Aplicação em Desenvolvimento',
   },
   {
+    id: 'em-desenvolvimento-2',
     title: 'Em Desenvolvimento',
     image: './img/pci.jpg',
     description: 'Aplicação em Desenvolvimento',
   },
   {
+    id: 'em-desenvolvimento-3',
     title: 'Em Desenvolvimento',
     image: './img/pci.jpg',
     description: 'Aplicação em Desenvolvimento',
@@ -108,7 +117,7 @@ function App() {
 
     const themeColor = document.querySelector('meta[name="theme-color"]');
     if (themeColor) {
-      themeColor.setAttribute('content', theme === 'dark' ? '#17191f' : '#f4f6fa');
+      themeColor.setAttribute('content', theme === 'dark' ? '#17191f' : '#d5d8df');
     }
 
     function syncThemeAcrossTabs(event) {
@@ -155,7 +164,9 @@ function App() {
             aria-label="Navegação principal"
           >
             {NAV_LINKS.map((link) => (
-              <a key={link} href="#recursos" onClick={() => setIsMenuOpen(false)}>{link}</a>
+              <a key={link.label} href={link.href} onClick={() => setIsMenuOpen(false)}>
+                {link.label}
+              </a>
             ))}
           </nav>
 
@@ -195,21 +206,32 @@ function App() {
       <main id="conteudo">
         <section className="hero" id="top">
           <div className="container hero__inner">
-            <h1>Projetos em Desenvolvimento</h1>
+            <p className="hero__tag">Projetos e Automação</p>
           </div>
         </section>
 
         <section className="section section--alt" id="recursos">
           <div className="container">
-            <h2 className="section__title">Projetos</h2>
             <div className="feature-grid">
               {FEATURES.map((feature, index) => (
                 <article className="feature" key={index}>
-                  {feature.image ? (
-                    <img className="placeholder feature__image" src={feature.image} alt="" />
-                  ) : (
-                    <Placeholder className="feature__image" />
-                  )}
+                  {(() => {
+                    const image = feature.image ? (
+                      <img className="placeholder feature__image" src={feature.image} alt="" />
+                    ) : (
+                      <Placeholder className="feature__image" />
+                    );
+
+                    return (
+                      <a
+                        className="feature__link"
+                        href={`#${feature.id}`}
+                        aria-label={`Ir para ${feature.title}`}
+                      >
+                        {image}
+                      </a>
+                    );
+                  })()}
                   <h3>{feature.title}</h3>
                   <p>
                     {feature.description ??
@@ -221,6 +243,25 @@ function App() {
           </div>
         </section>
 
+        <section className="topic" id="teste-downloads">
+          <div className="container">
+            <h2 className="topic__title">Testes e Download</h2>
+          </div>
+        </section>
+
+        {FEATURES.map((feature) => (
+          <section className="section detail" id={feature.id} key={feature.id}>
+            <div className="container">
+              <h2 className="section__title">{feature.title}</h2>
+              <p className="section__lead">{feature.description}</p>
+              <div className="detail__image detail__soon">
+                <img src="./img/circuito-cinza.svg" alt="" />
+                <span>Em desenvolvimento</span>
+              </div>
+              <a className="detail__back" href="#recursos">← Voltar aos projetos</a>
+            </div>
+          </section>
+        ))}
       </main>
 
       <footer className="site-footer">
