@@ -2,7 +2,7 @@
 
 Este guia permite recriar manualmente a página inicial deste repositório usando **JavaScript, React e Vite**.
 
-A página apresenta “Projetos em Desenvolvimento.” e “Amaury Huerb”. Do projeto `C:\Dev-AHS\IA_automation_front` é usada somente a paleta escura: fundo `#212121`, texto `#ececec`, azul `#3b82f6`, superfície `#1f2937`, fundo secundário `#171717` e borda `#2d2d2d`.
+A página apresenta “Projetos em Desenvolvimento.” e “Amaury Huerb”, usando o ícone oficial em `img/circuito-azul.svg`. O azul oficial é `#2B3CF5`, extraído do próprio SVG. Do projeto `C:\Dev-AHS\IA_automation_front` é usada somente a paleta escura: fundo `#212121`, texto `#ececec`, superfície `#1f2937`, fundo secundário `#171717` e borda `#2d2d2d`.
 
 ## 1. Pré-requisitos
 
@@ -45,6 +45,14 @@ Amaury_Automation/
 ├── README.md
 ├── DocumentacaoTecnica/
 │   └── EstruturaProjeto.md
+├── img/
+│   ├── circuito-azul.svg
+│   └── circuito-cinza.svg
+├── public/
+│   ├── CNAME
+│   └── img/
+│       ├── circuito-azul.svg
+│       └── circuito-cinza.svg
 └── src/
     ├── App.jsx
     ├── main.jsx
@@ -58,6 +66,16 @@ New-Item -ItemType Directory -Force -Path '.\src'
 ```
 
 Nos passos a seguir, crie/substitua cada arquivo usando o editor. O `package-lock.json` é gerado pelo npm e não deve ser escrito à mão.
+
+Coloque os arquivos de ícone originais em `img\`. Crie as cópias que serão servidas pelo Vite em `public\img\`:
+
+```powershell
+New-Item -ItemType Directory -Force -Path '.\public\img'
+Copy-Item '.\img\circuito-azul.svg' '.\public\img\circuito-azul.svg'
+Copy-Item '.\img\circuito-cinza.svg' '.\public\img\circuito-cinza.svg'
+```
+
+O azul oficial é `#2B3CF5`, definido no SVG `circuito-azul.svg`; use a mesma cor no token `--accent` e nos efeitos visuais.
 
 ## 4. `package.json`
 
@@ -100,7 +118,7 @@ export default defineConfig({
 
 ## 6. `index.html`
 
-Este HTML define idioma, metadados, título da aba e ponto de montagem do React:
+Este HTML define idioma, metadados, favicon oficial, título da aba e ponto de montagem do React:
 
 ```html
 <!doctype html>
@@ -113,6 +131,7 @@ Este HTML define idioma, metadados, título da aba e ponto de montagem do React:
       name="description"
       content="Projetos em desenvolvimento de Amaury Huerb."
     />
+    <link rel="icon" type="image/svg+xml" href="./img/circuito-azul.svg" />
     <title>Projetos em Desenvolvimento | Amaury Huerb</title>
   </head>
   <body>
@@ -124,7 +143,7 @@ Este HTML define idioma, metadados, título da aba e ponto de montagem do React:
 
 ## 7. `src/App.jsx`
 
-O componente principal mostra o título e a assinatura. `aria-hidden` marca os elementos decorativos:
+O componente principal mostra o ícone oficial azul, o título e a assinatura. `aria-hidden` marca os elementos decorativos:
 
 ```jsx
 function App() {
@@ -132,6 +151,12 @@ function App() {
     <main className="landing">
       <div className="landing__glow" aria-hidden="true" />
       <section className="intro" aria-labelledby="page-title">
+        <img
+          className="intro__logo"
+          src="./img/circuito-azul.svg"
+          alt=""
+          aria-hidden="true"
+        />
         <span className="intro__accent" aria-hidden="true" />
         <h1 id="page-title">Projetos em Desenvolvimento.</h1>
         <p className="intro__name">Amaury Huerb</p>
@@ -181,7 +206,7 @@ O CSS completo controla a paleta, a grade de fundo, o brilho azul e a adaptaçã
   --text: #ececec;
   --text-muted: #a1a1aa;
   --border: #2d2d2d;
-  --accent: #3b82f6;
+  --accent: #2B3CF5;
 }
 
 * {
@@ -232,8 +257,8 @@ body::before {
   border-radius: 50%;
   background: radial-gradient(
     circle,
-    rgb(59 130 246 / 12%) 0,
-    rgb(59 130 246 / 4%) 38%,
+    rgb(43 60 245 / 12%) 0,
+    rgb(43 60 245 / 4%) 38%,
     transparent 70%
   );
   transform: translate(-50%, -50%);
@@ -245,6 +270,13 @@ body::before {
   text-align: center;
 }
 
+.intro__logo {
+  display: block;
+  width: 88px;
+  height: 88px;
+  margin: 0 auto 28px;
+}
+
 .intro__accent {
   display: block;
   width: 52px;
@@ -252,7 +284,7 @@ body::before {
   margin: 0 auto 30px;
   border-radius: 999px;
   background: var(--accent);
-  box-shadow: 0 0 24px rgb(59 130 246 / 65%);
+  box-shadow: 0 0 24px rgb(43 60 245 / 65%);
 }
 
 .intro h1 {
@@ -276,6 +308,12 @@ body::before {
 @media (max-width: 520px) {
   .landing {
     padding-inline: 22px;
+  }
+
+  .intro__logo {
+    width: 72px;
+    height: 72px;
+    margin-bottom: 24px;
   }
 
   .intro__accent {
@@ -374,7 +412,8 @@ Se não houver `origin`, adicione-o com `git remote add origin https://github.co
 ## 13. Fazer alterações futuras
 
 - Conteúdo da página: `src/App.jsx`.
-- Cores, layout e responsividade: `src/styles.css`.
+- Cores, layout e responsividade: `src/styles.css`; use `#2B3CF5` como azul oficial, igual ao ícone.
+- Ícones: arquivos originais em `img/` e cópias públicas em `public/img/`; atualize também favicon e cópias publicadas ao trocar o desenho.
 - Título e metadados: `index.html`.
 - Dependências e comandos: `package.json`.
 - Depois de alterar: execute `npm run dev`, confira no navegador e rode `npm run build`.

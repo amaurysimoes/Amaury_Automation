@@ -14,7 +14,7 @@
   --text: #ececec;
   --text-muted: #a1a1aa;
   --border: #2d2d2d;
-  --accent: #3b82f6;
+  --accent: #2B3CF5;
 }
 
 * {
@@ -65,8 +65,8 @@ body::before {
   border-radius: 50%;
   background: radial-gradient(
     circle,
-    rgb(59 130 246 / 12%) 0,
-    rgb(59 130 246 / 4%) 38%,
+    rgb(43 60 245 / 12%) 0,
+    rgb(43 60 245 / 4%) 38%,
     transparent 70%
   );
   transform: translate(-50%, -50%);
@@ -78,6 +78,13 @@ body::before {
   text-align: center;
 }
 
+.intro__logo {
+  display: block;
+  width: 88px;
+  height: 88px;
+  margin: 0 auto 28px;
+}
+
 .intro__accent {
   display: block;
   width: 52px;
@@ -85,7 +92,7 @@ body::before {
   margin: 0 auto 30px;
   border-radius: 999px;
   background: var(--accent);
-  box-shadow: 0 0 24px rgb(59 130 246 / 65%);
+  box-shadow: 0 0 24px rgb(43 60 245 / 65%);
 }
 
 .intro h1 {
@@ -112,6 +119,12 @@ body::before {
   }
 
   .intro__accent {
+    margin-bottom: 24px;
+  }
+
+  .intro__logo {
+    width: 72px;
+    height: 72px;
     margin-bottom: 24px;
   }
 

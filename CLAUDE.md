@@ -11,7 +11,7 @@ Este arquivo registra o contexto técnico, as decisões, as alterações e o est
 - Stack: JavaScript, React e Vite; não é um projeto Python.
 - Objetivo inicial: página web de apresentação simples com fundo escuro e os textos “Projetos em Desenvolvimento.” e “Amaury Huerb”, para acrescentar outros projetos posteriormente.
 - Referência de estilo: `C:\Dev-AHS\IA_automation_front`. Foi solicitada apenas a paleta escura, sem copiar componentes, imagens ou funcionalidades.
-- Paleta adotada: fundo `#212121`, texto `#ececec`, azul `#3b82f6`, superfície `#1f2937`, fundo secundário `#171717` e borda `#2d2d2d`.
+- Paleta adotada: fundo `#212121`, texto `#ececec`, azul oficial `#2B3CF5` (extraído do ícone `img/circuito-azul.svg`), superfície `#1f2937`, fundo secundário `#171717` e borda `#2d2d2d`.
 - Preferência de apresentação do projeto: documentação e commits devem ser escritos como documentação normal do projeto, sem atribuições ou comentários sobre ferramentas de assistência.
 
 ## Estrutura atual
@@ -34,7 +34,13 @@ Amaury_Automation/
 ├── package-lock.json
 ├── package.json
 ├── public/
-│   └── CNAME
+│   ├── CNAME
+│   └── img/
+│       ├── circuito-azul.svg
+│       └── circuito-cinza.svg
+├── img/
+│   ├── circuito-azul.svg
+│   └── circuito-cinza.svg
 ├── src/
 │   ├── App.jsx
 │   ├── main.jsx
@@ -44,14 +50,16 @@ Amaury_Automation/
 
 ### Arquivos importantes
 
-- `src/App.jsx`: componente da página inicial, título, assinatura e elementos decorativos.
+- `src/App.jsx`: componente da página inicial, título, assinatura, ícone oficial e elementos decorativos.
 - `src/main.jsx`: importa o componente e CSS e monta o React em `#root`.
-- `src/styles.css`: paleta, grade de fundo, brilho azul, tipografia, layout e media query para telas estreitas.
-- `index.html`: HTML inicial, idioma `pt-BR`, metadados e título da aba.
+- `src/styles.css`: paleta (azul oficial `#2B3CF5`), grade de fundo, brilho azul, tipografia, layout e media query para telas estreitas.
+- `index.html`: HTML inicial, idioma `pt-BR`, metadados, favicon oficial e título da aba.
 - `package.json`: dependências e comandos `dev`, `build` e `preview`.
 - `package-lock.json`: lockfile npm; manter versionado e usar `npm ci` em instalação limpa.
 - `vite.config.js`: configuração Vite e caminho relativo `base: './'`, para funcionar no GitHub Pages com domínio próprio.
 - `public/CNAME`: contém exatamente `automationprojects.top`; durante o build, Vite copia para `dist/CNAME`.
+- `img/circuito-azul.svg`: arquivo original do ícone oficial azul fornecido para o projeto. A cópia em `public/img` é disponibilizada no site e usada na página e como favicon.
+- `img/circuito-cinza.svg`: variação cinza fornecida, mantida para uso futuro.
 - `.github/workflows/deploy.yml`: build e deploy automáticos do GitHub Pages a cada push para `main`, além de execução manual (`workflow_dispatch`).
 - `DocumentacaoTecnica/EstruturaProjeto.md`: guia detalhado para recriar manualmente o projeto do zero.
 - `EstruturaProjeto.md`: guia introdutório semelhante na raiz. A cópia da pasta `DocumentacaoTecnica` é a documentação mais completa.
@@ -74,6 +82,8 @@ Amaury_Automation/
 10. Para suportar o domínio, `vite.config.js` foi alterado para `base: './'` e `public/CNAME` foi criado com o domínio.
 11. `DocumentacaoTecnica/PublicarGit.md` documenta o DNS esperado, o cadastro em **Settings → Pages → Custom domain**, HTTPS, o fluxo de deploy, diagnóstico e publicação de futuras atualizações.
 12. Foi solicitado que os arquivos e commits não tenham atribuições ou comentários de ferramentas de assistência. Não adicionar essas atribuições aos novos commits.
+13. Foram fornecidos `img/circuito-azul.svg` e `img/circuito-cinza.svg`. O azul do ícone oficial é exatamente `#2B3CF5`; foi adotado como cor de destaque, no brilho e favicon. Os SVGs são copiados para `public/img` para que o Vite os inclua no build; o ícone azul também é exibido na página inicial.
+14. A cor oficial azul foi aplicada ao token de destaque, aos efeitos de brilho, ao ícone exibido na página e ao favicon. Os SVGs originais e suas cópias em `public/img` permanecem no repositório.
 
 ## Histórico de commits já enviados
 
@@ -162,6 +172,7 @@ Não versionar `node_modules` ou `dist` (ambos estão no `.gitignore`). Não usa
 
 - Manter React + Vite; não trocar a stack sem pedido.
 - Preservar o texto inicial e a paleta acordada, a menos que haja solicitação para alterá-los.
+- Tratar `#2B3CF5` do SVG `img/circuito-azul.svg` como azul oficial; sincronizar `public/img/circuito-azul.svg`, o favicon, o ícone da página, os tokens e os exemplos de CSS/documentação ao atualizar a identidade.
 - Ao mexer em estilos ou dependências, conferir o comportamento local e executar `npm run build`.
 - Ao alterar publicação, manter coerentes o `base` do Vite, `public/CNAME`, workflow e instruções.
 - Atualizar a documentação técnica quando o processo de criação, execução ou publicação mudar.

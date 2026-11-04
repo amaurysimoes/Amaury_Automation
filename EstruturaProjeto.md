@@ -2,7 +2,7 @@
 
 Este guia explica como criar manualmente esta página web do zero usando **JavaScript, React e Vite**.
 
-A referência visual é somente a paleta escura do projeto `C:\Dev-AHS\IA_automation_front`: fundo `#212121`, texto `#ececec`, azul `#3b82f6`, superfície `#1f2937`, fundo secundário `#171717` e borda `#2d2d2d`. A página mostra “Projetos em Desenvolvimento.” e “Amaury Huerb”; os componentes e o restante do CSS foram criados para este projeto.
+A referência visual é somente a paleta escura do projeto `C:\Dev-AHS\IA_automation_front`: fundo `#212121`, texto `#ececec`, superfície `#1f2937`, fundo secundário `#171717` e borda `#2d2d2d`. O azul oficial é `#2B3CF5`, extraído de `img/circuito-azul.svg`. A página mostra “Projetos em Desenvolvimento.” e “Amaury Huerb”.
 
 ## 1. Pré-requisitos
 
@@ -52,6 +52,14 @@ Amaury_Automation/
 ├── .gitignore
 ├── README.md
 ├── EstruturaProjeto.md
+├── img/
+│   ├── circuito-azul.svg
+│   └── circuito-cinza.svg
+├── public/
+│   ├── CNAME
+│   └── img/
+│       ├── circuito-azul.svg
+│       └── circuito-cinza.svg
 └── src/
     ├── App.jsx
     ├── main.jsx
@@ -66,6 +74,8 @@ Amaury_Automation/
 - `vite.config.js`: configuração do Vite e plugin React.
 - `package-lock.json`: versões resolvidas pelo npm; mantenha-o no Git.
 - `.gitignore`: arquivos gerados/localmente que não devem ser enviados ao Git.
+- `img/circuito-azul.svg`: ícone oficial; seu azul `#2B3CF5` é usado nos destaques.
+- `public/img/`: cópias dos ícones servidas pelo Vite, incluindo favicon e imagem da página.
 
 ## 4. Configurar `package.json`
 
@@ -123,6 +133,7 @@ Defina português do Brasil, metadados, título da aba e o ponto de montagem:
       name="description"
       content="Projetos em desenvolvimento de Amaury Huerb."
     />
+    <link rel="icon" type="image/svg+xml" href="./img/circuito-azul.svg" />
     <title>Projetos em Desenvolvimento | Amaury Huerb</title>
   </head>
   <body>
@@ -159,6 +170,12 @@ function App() {
     <main className="landing">
       <div className="landing__glow" aria-hidden="true" />
       <section className="intro" aria-labelledby="page-title">
+        <img
+          className="intro__logo"
+          src="./img/circuito-azul.svg"
+          alt=""
+          aria-hidden="true"
+        />
         <span className="intro__accent" aria-hidden="true" />
         <h1 id="page-title">Projetos em Desenvolvimento.</h1>
         <p className="intro__name">Amaury Huerb</p>
@@ -185,7 +202,7 @@ Declare as cores no `:root` para manter o tema consistente e fácil de alterar:
   --text: #ececec;
   --text-muted: #a1a1aa;
   --border: #2d2d2d;
-  --accent: #3b82f6;
+  --accent: #2B3CF5;
 }
 ```
 
