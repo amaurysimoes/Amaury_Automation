@@ -1,6 +1,10 @@
-# Publicar o projeto no GitHub
+# Publicar o site como página web
 
-Este guia explica como enviar atualizações do projeto para o GitHub e publicar o site no GitHub Pages sem ajuda.
+Este guia explica como deixar o projeto acessível como um site na internet usando o GitHub Pages. O endereço publicado é:
+
+**https://amaurysimoes.github.io/Amaury_Automation/**
+
+O GitHub Actions cria e publica o site automaticamente sempre que a branch `main` recebe um `push`. Não é necessário enviar a pasta `dist` manualmente.
 
 ## 1. Abrir o projeto
 
@@ -30,7 +34,7 @@ Se `origin` não estiver configurado, adicione-o uma única vez:
 git remote add origin https://github.com/amaurysimoes/Amaury_Automation.git
 ```
 
-## 2. Testar antes de publicar
+## 2. Conferir o site antes de publicar
 
 Instale dependências caso seja a primeira vez neste computador ou se o `package-lock.json` mudou:
 
@@ -46,7 +50,15 @@ npm run build
 
 Se o build falhar, corrija os erros antes de continuar. A pasta `dist` é gerada automaticamente e não precisa ser adicionada ao Git.
 
-## 3. Enviar uma atualização para o GitHub
+## 3. Publicar ou atualizar o site
+
+Para a primeira publicação, confirme uma vez que o GitHub Pages está configurado:
+
+1. Abra as configurações Pages do repositório: `https://github.com/amaurysimoes/Amaury_Automation/settings/pages`.
+2. Em **Build and deployment**, selecione **GitHub Actions** como origem.
+3. Salve a configuração, se solicitado.
+
+Depois, sempre que quiser publicar uma versão nova do site, envie as alterações para a branch `main`:
 
 Confira quais arquivos foram alterados:
 
@@ -54,7 +66,7 @@ Confira quais arquivos foram alterados:
 git status
 ```
 
-Adicione as alterações, crie um commit descritivo e envie a branch `main`:
+Adicione as alterações, crie um commit descritivo e envie:
 
 ```powershell
 git add -A
@@ -76,40 +88,23 @@ git pull --rebase
 
 Resolva eventuais conflitos nos arquivos indicados, continue o rebase se solicitado e depois tente `git push` novamente.
 
-## 4. Publicação automática do site
-
-O repositório está configurado para publicar o site pelo GitHub Actions. Cada `git push` para `main` inicia automaticamente um fluxo que:
-
-1. instala as dependências;
-2. executa `npm run build`;
-3. publica o conteúdo da pasta `dist` no GitHub Pages.
-
-O workflow está em `.github/workflows/deploy.yml`. O Vite já está configurado com a base `/Amaury_Automation/`, necessária para este endereço de projeto no Pages.
-
-Na primeira publicação, confirme no GitHub:
-
-1. Abra `https://github.com/amaurysimoes/Amaury_Automation`.
-2. Acesse **Settings** → **Pages**.
-3. Em **Build and deployment**, selecione **GitHub Actions** como origem.
-4. Salve a configuração, se o GitHub solicitar.
-
-Após o workflow concluir com sucesso, o site estará em:
+Esse envio inicia o workflow em `.github/workflows/deploy.yml`. Ele instala as dependências, executa `npm run build` e publica o conteúdo de `dist` no GitHub Pages. O endereço do site não muda:
 
 ```text
 https://amaurysimoes.github.io/Amaury_Automation/
 ```
 
-## 5. Conferir o andamento da publicação
+## 4. Acompanhar a publicação
 
-No GitHub, abra a aba **Actions**, selecione a execução mais recente de **Deploy to GitHub Pages** e aguarde os trabalhos de build e deploy terminarem com sucesso. Também é possível consultar o estado pelo PowerShell, se o GitHub CLI (`gh`) estiver instalado e autenticado:
+No repositório, abra a aba **Actions**, selecione a execução mais recente de **Deploy to GitHub Pages** e aguarde build e deploy terminarem com sucesso. Também é possível consultar pelo PowerShell, se o GitHub CLI (`gh`) estiver instalado e autenticado:
 
 ```powershell
 gh run list --workflow deploy.yml --limit 5
 ```
 
-Depois de uma execução bem-sucedida, abra o endereço do Pages acima. Pode levar alguns minutos para a nova versão aparecer; atualize o navegador se necessário.
+Após o sucesso, abra o endereço do site. A atualização pode levar alguns minutos para aparecer; atualize o navegador se necessário.
 
-## 6. Se a publicação falhar
+## 5. Se a publicação falhar
 
 - **Build falhou:** confira o log do trabalho em **Actions**, corrija o problema localmente, rode `npm run build` e faça novo commit e push.
 - **Pages não está configurado:** em **Settings** → **Pages**, escolha **GitHub Actions** como origem.
@@ -117,7 +112,7 @@ Depois de uma execução bem-sucedida, abra o endereço do Pages acima. Pode lev
 - **Push recusado:** use `git pull --rebase`, resolva conflitos com cuidado e tente enviar novamente; não use `git push --force`.
 - **Autenticação solicitada:** autentique-se pelo Git Credential Manager ou pelo GitHub CLI. Nunca coloque senhas ou tokens em arquivos do projeto.
 
-## 7. Resumo para cada atualização
+## 6. Resumo para publicar cada atualização
 
 Depois de editar o projeto, execute sempre:
 
