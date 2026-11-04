@@ -1,6 +1,6 @@
 # Estrutura do projeto — Vite + React
 
-Este guia explica como criar manualmente esta página web do zero, sem assistência de ferramentas de geração de código. A aplicação usa **JavaScript, React e Vite**. Não usa Python.
+Este guia explica como criar manualmente esta página web do zero usando **JavaScript, React e Vite**.
 
 A referência visual é somente a paleta escura do projeto `C:\Dev-AHS\IA_automation_front`: fundo `#212121`, texto `#ececec`, azul `#3b82f6`, superfície `#1f2937`, fundo secundário `#171717` e borda `#2d2d2d`. A página mostra “Projetos em Desenvolvimento.” e “Amaury Huerb”; os componentes e o restante do CSS foram criados para este projeto.
 

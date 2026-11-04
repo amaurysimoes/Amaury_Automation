@@ -1,6 +1,6 @@
 # Recriar o projeto do zero — Vite + React
 
-Este guia permite recriar manualmente a página inicial deste repositório, sem assistência de um gerador de código. É uma aplicação web feita com **JavaScript, React e Vite**; **não usa Python**.
+Este guia permite recriar manualmente a página inicial deste repositório usando **JavaScript, React e Vite**.
 
 A página apresenta “Projetos em Desenvolvimento.” e “Amaury Huerb”. Do projeto `C:\Dev-AHS\IA_automation_front` é usada somente a paleta escura: fundo `#212121`, texto `#ececec`, azul `#3b82f6`, superfície `#1f2937`, fundo secundário `#171717` e borda `#2d2d2d`.
 
