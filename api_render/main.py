@@ -188,14 +188,25 @@ class Imagem(BaseModel):
     dados_base64: str    # a imagem já comprimida em WebP pelo navegador
 
 
+def _conectar_aiven_publico():
+    """Conecta no Aiven para as rotas abertas. Se falhar, devolve a causa SEM host, usuário ou senha."""
+    try:
+        return conectar_aiven()
+    except KeyError as e:
+        raise HTTPException(503, f"Variável de ambiente {e} não definida no Render (vincule o grupo automacao-env).")
+    except Exception as e:
+        codigo = e.args[0] if e.args and isinstance(e.args[0], int) else ""
+        raise HTTPException(503, f"Não foi possível conectar ao banco Aiven ({type(e).__name__} {codigo}).".replace(" )", ")"))
+
+
 # TEMPORÁRIO: as duas rotas de LEITURA de imagens abaixo estão abertas (sem login) para o painel público do portal.
 # Para voltar a exigir login, acrescente `_=Depends(usuario)` nos parâmetros delas. As demais rotas continuam protegidas.
 @app.get("/aiven/imagens")
 def aiven_imagens():
-    conn = conectar_aiven()
+    conn = _conectar_aiven_publico()
     try:
         lista = _rodar(conn, "SELECT id, nome_arquivo, largura, altura, tamanho_original_bytes, tamanho_final_bytes,"
-                             f" qualidade, criado_em FROM {_crase(TABELA_IMAGENS)} ORDER BY id DESC LIMIT %s", (LIMITE,))
+                             f" qualidade, criado_em, sha256 FROM {_crase(TABELA_IMAGENS)} ORDER BY id DESC LIMIT %s", (LIMITE,))
         with conn.cursor() as cur:
             cur.execute("SELECT COUNT(*), COALESCE(SUM(tamanho_original_bytes),0), COALESCE(SUM(tamanho_final_bytes),0)"
                         f" FROM {_crase(TABELA_IMAGENS)}")
@@ -210,7 +221,7 @@ def aiven_imagens():
 
 @app.get("/aiven/imagens/{id_}")
 def aiven_imagem(id_: int):
-    conn = conectar_aiven()
+    conn = _conectar_aiven_publico()
     try:
         with conn.cursor() as cur:
             cur.execute(f"SELECT nome_arquivo, mime_type, dados FROM {_crase(TABELA_IMAGENS)} WHERE id = %s", (id_,))

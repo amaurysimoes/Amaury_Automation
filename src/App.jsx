@@ -325,25 +325,21 @@ function App() {
             <div className="container">
               <h2 className="section__title">{feature.title}</h2>
               <p className="section__lead">{feature.description}</p>
-              {feature.tools && (
-                <div className="detail__tools">
-                  {feature.tools.map((tool) => (
-                    <button
-                      className="tool-link"
-                      type="button"
-                      key={tool.id}
-                      onClick={() => setOpenTool(tool.id)}
-                    >
-                      <Icon name="database" size={16} />
-                      <span>{tool.label}</span>
-                      <span className="tool-link__arrow" aria-hidden="true">→</span>
-                    </button>
-                  ))}
-                </div>
-              )}
-              <div className="detail__image detail__soon">
+              <div className={`detail__image detail__soon${feature.tools ? ' detail__soon--content' : ''}`}>
                 <img src="./img/circuito-cinza.svg" alt="" />
-                <span>Em desenvolvimento</span>
+                {feature.tools?.map((tool) => (
+                  <button
+                    className="tool-link"
+                    type="button"
+                    key={tool.id}
+                    onClick={() => setOpenTool(tool.id)}
+                  >
+                    <Icon name="database" size={16} />
+                    <span>{tool.label}</span>
+                    <span className="tool-link__arrow" aria-hidden="true">→</span>
+                  </button>
+                ))}
+                {!feature.tools && <span>Em desenvolvimento</span>}
               </div>
               <a className="detail__back" href="#recursos">← Voltar aos projetos</a>
             </div>

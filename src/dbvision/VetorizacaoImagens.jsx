@@ -1,5 +1,8 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import { API_URL } from '../config.js';
+
+// O upload (com login Google e Firebase) só é baixado quando a aba "Upload" é aberta.
+const UploadImagem = lazy(() => import('./UploadImagem.jsx'));
 
 // Vetorização de Imagem Base de Dados: painel TEMPORÁRIO, só de visualização, sem login (por enquanto).
 // Existe apenas enquanto está aberto: ao fechar, a lista e as imagens saem da memória do navegador.
@@ -33,6 +36,7 @@ function toRows(data) {
     finalBytes: row[index.tamanho_final_bytes],
     quality: row[index.qualidade],
     createdAt: row[index.criado_em],
+    sha256: row[index.sha256],
   }));
 }
 
@@ -43,6 +47,7 @@ export default function VetorizacaoImagens({ onClose }) {
   const [previewUrl, setPreviewUrl] = useState(null);
   const [message, setMessage] = useState('');
   const [busy, setBusy] = useState(false);
+  const [tab, setTab] = useState('ver'); // 'ver' | 'upload'
   const previewRef = useRef(null);
   const closeRef = useRef(null);
 
@@ -91,6 +96,12 @@ export default function VetorizacaoImagens({ onClose }) {
     load();
   }, [load]);
 
+  // Ao carregar a lista, já seleciona a primeira imagem (prévia e código aparecem sem precisar clicar).
+  useEffect(() => {
+    if (rows?.length && selectedId === null) select(rows[0]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [rows]);
+
   async function select(row) {
     setSelectedId(row.id);
     setPreviewUrl(null);
@@ -111,6 +122,14 @@ export default function VetorizacaoImagens({ onClose }) {
   }
 
   const selected = rows?.find((row) => row.id === selectedId);
+  const [copied, setCopied] = useState(false);
+
+  function copyHash() {
+    navigator.clipboard?.writeText(selected.sha256).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    });
+  }
 
   return (
     <div className="dbv" role="dialog" aria-modal="true" aria-labelledby="dbv-title">
@@ -135,6 +154,38 @@ export default function VetorizacaoImagens({ onClose }) {
         </header>
 
         <div className="dbv__body">
+          <div className="dbv__tabs" role="tablist">
+            <button
+              className={`dbv__tab${tab === 'ver' ? ' is-active' : ''}`}
+              type="button"
+              role="tab"
+              aria-selected={tab === 'ver'}
+              onClick={() => setTab('ver')}
+            >
+              Visualizar
+            </button>
+            <button
+              className={`dbv__tab${tab === 'upload' ? ' is-active' : ''}`}
+              type="button"
+              role="tab"
+              aria-selected={tab === 'upload'}
+              onClick={() => setTab('upload')}
+            >
+              Upload
+            </button>
+          </div>
+
+          {tab === 'upload' ? (
+            <Suspense fallback={<p className="dbv__muted">Carregando…</p>}>
+              <UploadImagem
+                onSent={() => {
+                  setTab('ver');
+                  load();
+                }}
+              />
+            </Suspense>
+          ) : (
+          <>
           <div className="dbv__toolbar">
             <button className="dbv__btn" type="button" onClick={load} disabled={busy}>
               Atualizar
@@ -205,7 +256,36 @@ export default function VetorizacaoImagens({ onClose }) {
             </aside>
           </div>
 
-          {message && <p className="dbv__message">{message}</p>}
+          <div className="dbv__hash">
+            <label htmlFor="dbv-sha">Código da vetorização · SHA-256</label>
+            <div className="dbv__hash-row">
+              <input
+                id="dbv-sha"
+                type="text"
+                readOnly
+                placeholder={
+                  selected
+                    ? 'Código indisponível: a API ainda não enviou o sha256 desta imagem'
+                    : 'Selecione uma imagem para ver o código'
+                }
+                value={selected?.sha256 ?? ''}
+                onFocus={(event) => event.target.select()}
+              />
+              <button className="dbv__btn" type="button" onClick={copyHash} disabled={!selected?.sha256}>
+                {copied ? 'Copiado' : 'Copiar'}
+              </button>
+            </div>
+            {selected && (
+              <small className="dbv__muted">
+                Imagem {selected.id} · {selected.name} · {selected.width}×{selected.height} · WebP
+              </small>
+            )}
+          </div>
+
+          </>
+          )}
+
+          {message && tab === 'ver' && <p className="dbv__message">{message}</p>}
         </div>
       </div>
     </div>
