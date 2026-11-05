@@ -152,12 +152,14 @@ Amaury_Automation/
 | `b3e3d95` | update |
 | `04d18eb` | Update |
 | `3350b04` | Adicionar cards Programação Desk e Integração DB e atualizar histórico do projeto |
+| `cfa7faf` | Registrar envio dos cards no histórico do projeto |
+| `8c89b75` | Aplicar imagem de fundo nos painéis e ajustar texto do último card |
 
 O histórico é aditivo; não reescrever/amendar commits existentes.
 
 ## Estado confirmado na última verificação
 
-- Branch local `main`, sincronizada com `origin/main` após o envio dos itens 28 a 31 (`img/iotfire.jpg` continua sem uso). Um commit seguinte registra apenas o hash no histórico.
+- Branch local `main`, sincronizada com `origin/main` após o envio dos itens 28 a 31 (`img/iotfire.jpg` continua sem uso). O commit mais recente é `8c89b75` (mais um commit só de registro no histórico).
 - O build `npm run build` passou antes do envio.
 - Deploys conferidos: o do commit `cfa7faf` terminou com sucesso. O deploy dos itens 30 e 31 ainda não foi conferido (verificar em **Actions**).
 - Deploy do commit `4e5cc47` falhou por timeout na etapa de publicação; o deploy do commit seguinte (`b3e3d95`) terminou com sucesso. Nada foi conferido depois disso.
