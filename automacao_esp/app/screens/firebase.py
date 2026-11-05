@@ -8,6 +8,7 @@ from PyQt6.QtWidgets import (QAbstractItemView, QCheckBox, QComboBox, QDoubleSpi
                              QLabel, QLineEdit, QPlainTextEdit, QSpinBox, QTableWidget, QTableWidgetItem,
                              QVBoxLayout, QWidget)
 
+from ..env_config import aplicar_env
 from ..paths import resource_path
 from ..theme import DANGER, SUCCESS
 from ..widgets import ActionButton, BackgroundMixin, Card, ThemeButton
@@ -147,7 +148,9 @@ class FirebaseScreen(BackgroundMixin, QWidget):
         root.addWidget(self._build_log())
 
         self._load_ports()
-        self._apply(self._load_saved())
+        cfg = aplicar_env(self._load_saved())  # valores do .env (se existir) valem mais que a última gravação
+        self._host, self._auth = cfg["host"], cfg["auth"]
+        self._apply(cfg)
 
     # ---------- construção da tela ----------
     def _build_port_card(self):
@@ -335,8 +338,8 @@ class FirebaseScreen(BackgroundMixin, QWidget):
                           "tipo": self.table.cellWidget(r, 2).currentData(),
                           "invertido": self.table.cellWidget(r, 3).findChild(QCheckBox).isChecked()})
         return {"nome": self.nome.text().strip(), "modelo": self.modelo.text().strip() or "ESP32",
-                "ssid": self.ssid.text().strip(), "senha": self.senha.text(), "host": DEFAULT_HOST,
-                "auth": "", "display": self.display.isChecked(),
+                "ssid": self.ssid.text().strip(), "senha": self.senha.text(), "host": self._host,
+                "auth": self._auth, "display": self.display.isChecked(),
                 "vcc_pino": self.vcc_pino.value(), "vcc_div": self.vcc_div.value(), "pinos": pinos}
 
     def _apply(self, cfg):
@@ -364,7 +367,8 @@ class FirebaseScreen(BackgroundMixin, QWidget):
     def _save(self, cfg):
         try:
             SAVED_FILE.parent.mkdir(parents=True, exist_ok=True)
-            SAVED_FILE.write_text(json.dumps(cfg, ensure_ascii=False, indent=2), encoding="utf-8")
+            guardar = {k: v for k, v in cfg.items() if k != "auth"}  # a chave do banco nunca é salva em disco pelo app
+            SAVED_FILE.write_text(json.dumps(guardar, ensure_ascii=False, indent=2), encoding="utf-8")
         except OSError:
             pass  # não conseguir lembrar a última configuração não impede a gravação
 

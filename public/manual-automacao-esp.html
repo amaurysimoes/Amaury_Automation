@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Manual Automação ESP</title>
+    <link rel="icon" type="image/svg+xml" href="./img/circuito-azul.svg" />
+    <style>
+      :root {
+        --bg: #17191f;
+        --surface: #1d2028;
+        --text: #edf0f7;
+        --muted: #a3a9b8;
+        --border: #383d49;
+        --accent: #6f7bff;
+        --neon: #39ff14;
+        --code: #11131a;
+      }
+      @media (prefers-color-scheme: light) {
+        :root {
+          --bg: #d5d8df;
+          --surface: #e6e8ee;
+          --text: #1c202b;
+          --muted: #4a5163;
+          --border: #b3b9c5;
+          --accent: #2b3cf5;
+          --neon: #1f51ff;
+          --code: #f1f2f6;
+        }
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font: 16px/1.6 "Segoe UI", system-ui, sans-serif;
+      }
+      main { max-width: 780px; margin: 0 auto; padding: 24px 16px 64px; }
+      a { color: var(--accent); }
+      h1 { margin: 16px 0 4px; font-size: 1.7rem; }
+      h2 {
+        margin: 36px 0 8px;
+        padding-top: 4px;
+        font-size: 1.15rem;
+        color: var(--neon);
+      }
+      p, li { margin: 6px 0; }
+      .lead { color: var(--muted); margin-bottom: 24px; }
+      .step {
+        padding: 4px 20px 16px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: var(--surface);
+        margin-top: 16px;
+      }
+      pre, code {
+        font-family: Consolas, "Cascadia Mono", monospace;
+        font-size: 0.88rem;
+      }
+      pre {
+        overflow-x: auto;
+        margin: 8px 0;
+        padding: 12px 14px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: var(--code);
+      }
+      code { padding: 1px 5px; border-radius: 4px; background: var(--code); }
+      pre code { padding: 0; background: none; }
+      table { width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 0.92rem; }
+      th, td { padding: 6px 8px; border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
+      .warn { border-left: 3px solid #ff9f0a; padding: 4px 12px; background: var(--code); }
+      .back { display: inline-block; margin-top: 4px; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <a class="back" href="./">← Voltar ao portal</a>
+      <h1>Automação ESP: do download ao ESP no Firebase</h1>
+      <p class="lead">
+        Este manual leva você, passo a passo, de um computador sem nada instalado até um ESP32 ligado,
+        aparecendo no portal e com os pinos sob controle.
+      </p>
+
+      <h2>Visão geral</h2>
+      <p>
+        O projeto Python (<code>automacao_esp</code>) é um programa de desktop: ele monta o firmware, grava o ESP32 pela
+        USB e define o Wi-Fi e os pinos. Depois de gravado, o ESP se conecta sozinho ao Firebase, e o portal
+        (<strong>Aplicações IOT → AUTOMAÇÃO ESP</strong>) lista o ESP e aciona os pinos pela internet.
+      </p>
+
+      <section class="step">
+        <h2>1. Instalar o Python</h2>
+        <ol>
+          <li>Baixe o Python 3.10 ou mais novo em <a href="https://www.python.org/downloads/" target="_blank" rel="noopener">python.org/downloads</a>.</li>
+          <li>No instalador, marque <strong>Add python.exe to PATH</strong> e clique em Install Now.</li>
+          <li>Confirme no PowerShell:</li>
+        </ol>
+        <pre><code>python --version</code></pre>
+      </section>
+
+      <section class="step">
+        <h2>2. Instalar o VS Code</h2>
+        <p>
+          Baixe em <a href="https://code.visualstudio.com/" target="_blank" rel="noopener">code.visualstudio.com</a> e instale.
+          Opcional, mas recomendado: na aba Extensões, instale <strong>Python</strong> (Microsoft).
+        </p>
+      </section>
+
+      <section class="step">
+        <h2>3. Baixar e abrir o projeto</h2>
+        <ol>
+          <li>No portal, abra o painel AUTOMAÇÃO ESP e clique em <strong>Baixar projeto Python (.zip)</strong>.</li>
+          <li>Extraia o <code>.zip</code>. Você terá a pasta <code>automacao_esp</code>.</li>
+          <li>No VS Code: <strong>Arquivo → Abrir Pasta…</strong> e escolha <code>automacao_esp</code>.</li>
+          <li>Abra o terminal do VS Code: <strong>Terminal → Novo Terminal</strong>.</li>
+        </ol>
+      </section>
+
+      <section class="step">
+        <h2>4. Criar o ambiente e instalar as bibliotecas</h2>
+        <p>No terminal do VS Code (dentro de <code>automacao_esp</code>):</p>
+        <pre><code>python -m venv .venv
+.venv\Scripts\activate
+pip install -r requirements.txt</code></pre>
+        <p class="warn">
+          Se o PowerShell bloquear o <code>activate</code>, rode antes
+          <code>Set-ExecutionPolicy -Scope Process Bypass</code> e tente de novo.
+        </p>
+      </section>
+
+      <section class="step">
+        <h2>5. Criar o arquivo .env</h2>
+        <p>
+          O <code>.env</code> guarda o que é só seu (Wi-Fi e chave). Ele fica ao lado do <code>main.py</code> e
+          <strong>nunca</strong> deve ser enviado ao GitHub nem compartilhado.
+        </p>
+        <pre><code>Copy-Item .env.example .env</code></pre>
+        <p>Abra o <code>.env</code> no VS Code e preencha:</p>
+        <table>
+          <tr><th>Chave</th><th>O que colocar</th></tr>
+          <tr><td><code>ESP_NOME</code></td><td>Nome do ESP (letras, números, <code>-</code> e <code>_</code>). Aparece no Firebase como <code>esps/&lt;nome&gt;</code>.</td></tr>
+          <tr><td><code>ESP_MODELO</code></td><td><code>ESP32</code></td></tr>
+          <tr><td><code>WIFI_SSID</code></td><td>Nome da sua rede Wi-Fi (2,4 GHz).</td></tr>
+          <tr><td><code>WIFI_SENHA</code></td><td>Senha do Wi-Fi.</td></tr>
+          <tr><td><code>FIREBASE_HOST</code></td><td>Já vem preenchido, sem <code>https://</code>.</td></tr>
+          <tr><td><code>FIREBASE_AUTH</code></td><td>Opcional. Chave do banco; deixe em branco se as regras do seu banco permitem o ESP gravar.</td></tr>
+        </table>
+        <p>Os valores do <code>.env</code> preenchem o formulário do programa; o que estiver em branco continua editável nele.</p>
+      </section>
+
+      <section class="step">
+        <h2>6. Executar o programa</h2>
+        <p>Com a <code>.venv</code> ativa, no terminal do VS Code:</p>
+        <pre><code>python main.py</code></pre>
+        <p>O formulário <strong>Automação FireBase</strong> abre. Dica: no VS Code, abra o <code>main.py</code> e use o botão ▶ no canto superior direito.</p>
+      </section>
+
+      <section class="step">
+        <h2>7. Opcional: criar o executável (.exe)</h2>
+        <p>Para usar sem abrir o VS Code, gere um executável de Windows:</p>
+        <pre><code>pip install pyinstaller
+pyinstaller --noconfirm --onefile --windowed --name AutomacaoESP --icon assets\icone_ia.ico --add-data "assets;assets" --add-data "firmware\Automacao;firmware\Automacao" main.py</code></pre>
+        <ul>
+          <li>O arquivo fica em <code>dist\AutomacaoESP.exe</code>.</li>
+          <li>Coloque o <code>.env</code> <strong>na mesma pasta do .exe</strong>.</li>
+          <li>O programa grava o ESP usando o PlatformIO: instale-o também fora da <code>.venv</code> com <code>pip install platformio</code>.</li>
+          <li>O Windows pode avisar sobre executável sem assinatura digital (Mais informações → Executar assim mesmo).</li>
+        </ul>
+      </section>
+
+      <section class="step">
+        <h2>8. Gravar o ESP32</h2>
+        <ol>
+          <li>Ligue o ESP32 no computador por um cabo USB <strong>de dados</strong>. Se a porta não aparecer, instale o driver CP210x ou CH340 da sua placa.</li>
+          <li>No programa, confira nome, Wi-Fi e a lista de pinos (GPIO, nome, saída ou entrada).</li>
+          <li>Escolha a porta serial e clique para gravar. A primeira vez demora, pois o PlatformIO baixa as ferramentas.</li>
+          <li>Ao terminar, o ESP reinicia, conecta ao Wi-Fi e se registra sozinho no Firebase.</li>
+        </ol>
+      </section>
+
+      <section class="step">
+        <h2>9. Controlar pelo portal</h2>
+        <ol>
+          <li>Abra o portal e, na seção <strong>Aplicações IOT</strong>, clique em <strong>AUTOMAÇÃO ESP</strong>.</li>
+          <li>Em até cerca de 30 segundos o ESP aparece com o ponto verde (online).</li>
+          <li>Clique nele para ver os pinos: <strong>Ligar/Desligar</strong> e <strong>Pulso</strong> nas saídas; as entradas mostram ON/OFF.</li>
+        </ol>
+        <p>
+          O portal lista os ESPs do banco padrão (<code>FIREBASE_HOST</code> do <code>.env.example</code>).
+          Se você usar outro banco, o ESP aparecerá apenas nele.
+        </p>
+      </section>
+
+      <h2>Problemas comuns</h2>
+      <ul>
+        <li><strong>"PlatformIO não encontrado"</strong>: rode <code>pip install platformio</code> e abra o programa de novo.</li>
+        <li><strong>Porta serial não aparece</strong>: troque o cabo (precisa ser de dados) e instale o driver da placa.</li>
+        <li><strong>ESP não fica online</strong>: confira SSID e senha (rede 2,4 GHz) e se o computador e o ESP têm internet.</li>
+        <li><strong>Erro ao gravar</strong>: segure o botão BOOT do ESP32 no início da gravação e tente de novo.</li>
+      </ul>
+    </main>
+  </body>
+</html>

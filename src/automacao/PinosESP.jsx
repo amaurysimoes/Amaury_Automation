@@ -110,6 +110,20 @@ export default function PinosESP({ onClose }) {
                   );
                 })}
               </ul>
+              <div className="esp__download">
+                <p className="dbv__muted">
+                  Quer gravar o seu próprio ESP? Baixe o programa Python e siga o manual (Python, VS Code,
+                  .env, executável, gravação e acesso pelo Firebase).
+                </p>
+                <div className="esp__download-actions">
+                  <a className="dbv__btn dbv__btn--primary" href="./downloads/automacao_esp.zip" download>
+                    Baixar projeto Python (.zip)
+                  </a>
+                  <a className="dbv__btn" href="./manual-automacao-esp.html" target="_blank" rel="noopener">
+                    Manual passo a passo ↗
+                  </a>
+                </div>
+              </div>
             </>
           ) : (
             <>

@@ -1627,3 +1627,22 @@ html {
     align-items: flex-start;
   }
 }
+
+.esp__download {
+  margin-top: 22px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border, rgb(128 128 128 / 30%));
+}
+
+.esp__download-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.esp__download-actions .dbv__btn {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}

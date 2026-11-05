@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "predev": "node scripts/zip-automacao-esp.mjs",
+    "prebuild": "node scripts/zip-automacao-esp.mjs",
     "build": "vite build",
     "preview": "vite preview"
   },
@@ -15,6 +17,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^6.0.2",
+    "fflate": "^0.8.3",
     "vite": "^8.1.0"
   }
 }
