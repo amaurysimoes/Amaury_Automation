@@ -44,7 +44,8 @@ app.add_middleware(GZipMiddleware, minimum_size=1000)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["https://amauryesp-active.web.app", "https://amauryesp-active.firebaseapp.com",
-                   "http://localhost:5173"],
+                   "https://automationprojects.top", "https://www.automationprojects.top",
+                   "https://amaurysimoes.github.io", "http://localhost:5173"],
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -187,8 +188,10 @@ class Imagem(BaseModel):
     dados_base64: str    # a imagem já comprimida em WebP pelo navegador
 
 
+# TEMPORÁRIO: as duas rotas de LEITURA de imagens abaixo estão abertas (sem login) para o painel público do portal.
+# Para voltar a exigir login, acrescente `_=Depends(usuario)` nos parâmetros delas. As demais rotas continuam protegidas.
 @app.get("/aiven/imagens")
-def aiven_imagens(_=Depends(usuario)):
+def aiven_imagens():
     conn = conectar_aiven()
     try:
         lista = _rodar(conn, "SELECT id, nome_arquivo, largura, altura, tamanho_original_bytes, tamanho_final_bytes,"
@@ -206,7 +209,7 @@ def aiven_imagens(_=Depends(usuario)):
 
 
 @app.get("/aiven/imagens/{id_}")
-def aiven_imagem(id_: int, _=Depends(usuario)):
+def aiven_imagem(id_: int):
     conn = conectar_aiven()
     try:
         with conn.cursor() as cur:
