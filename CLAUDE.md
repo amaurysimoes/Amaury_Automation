@@ -2,6 +2,8 @@
 
 Este arquivo registra o contexto técnico, as decisões, as alterações e o estado atual do projeto para que o trabalho possa continuar em outra sessão.
 
+**Regra permanente (pedido do proprietário):** toda alteração feita no projeto deve ser registrada neste arquivo no mesmo momento, sem exceção. Se o console for fechado, este arquivo deve bastar para retomar o trabalho de onde parou. Atualizar: estrutura, estado atual, histórico de alterações e pendências.
+
 ## Projeto
 
 - Nome: **Amaury Automation**.
@@ -9,21 +11,58 @@ Este arquivo registra o contexto técnico, as decisões, as alterações e o est
 - Repositório GitHub: `https://github.com/amaurysimoes/Amaury_Automation`.
 - Branch de trabalho/publicação: `main`.
 - Stack: JavaScript, React e Vite; não é um projeto Python.
-- Objetivo atual: portal para organizar vários projetos, mantendo a área de conteúdo preparada para módulos que serão definidos posteriormente.
-- Layout atual: página única em seções, seguindo apenas a estrutura de `https://master.dev/join/` (cabeçalho com navegação, hero, planos em três grupos, recursos incluídos, logos, depoimentos, FAQ e rodapé). Textos, marca, cores e código do template não são copiados; todo o conteúdo é provisório e as imagens são cinzas.
+- Objetivo atual: portal para organizar vários projetos (automação, IoT, web/mobile, desktop, bancos de dados), com seções e cards que levam a cada aplicação.
 - O tema dark é predominante e o padrão. O seletor deslizante permite light, persiste a escolha em `localStorage` e sincroniza abas abertas do mesmo site.
-- Referência de estilo: `C:\Dev-AHS\IA_automation_front`. Foi solicitada apenas a paleta escura, sem copiar componentes, imagens ou funcionalidades.
-- Paleta atual (tokens em `src/styles.css`, tema dark): fundo `#17191f`, barra/seções alternadas `#13151a`, superfície `#1d2028`, texto `#edf0f7` e azul oficial `#2B3CF5` (extraído do ícone `img/circuito-azul.svg`). A paleta inicial `#212121`/`#ececec` foi substituída na evolução do layout.
-- Imagens provisórias: `public/img/placeholder.svg` (cinza). Cada `<img class="placeholder">` em `src/App.jsx` deve ter seu `src` trocado pela imagem final.
+- Referência de estilo: `C:\Dev-AHS\IA_automation_front` (somente a paleta escura; sem copiar componentes, imagens ou funcionalidades).
+- Referência estrutural: `https://master.dev/join/`. Usada apenas para a organização geral da página; textos, marca, cores e código do template não são copiados.
 - Preferência de apresentação do projeto: documentação e commits devem ser escritos como documentação normal do projeto, sem atribuições ou comentários sobre ferramentas de assistência.
+- O proprietário escreve rápido e às vezes com erros de digitação nos textos pedidos. Corrigir erros óbvios de ortografia e avisar a correção; em dúvida, perguntar.
+- Commit e push somente quando o proprietário pedir.
+
+## Estado atual da página (`src/App.jsx`)
+
+Página única, na ordem:
+
+1. **Cabeçalho fixo**: marca "AmauryProjects" (ícone azul + texto, fonte 0.94rem + 2px), menu com **Projetos Exemplo** (→ `#recursos`) e **Teste e Downloads** (→ `#teste-downloads`), seletor de tema, botões "Entrar" e "Participar" (ainda sem destino) e menu para celular (até 860px).
+2. **Hero**: imagem de fundo `background_projeto.jpg` (opacidade `--hero-image-opacity`: 0.32 no dark, 0.16 no light, com esmaecimento na base) e apenas o texto **"Projetos e Automação"** (`.hero__tag`): verde neon com brilho no tema escuro, azul neon no claro, fonte 0.78rem + 4px.
+3. **Grade de cards** (`#recursos`, 3 colunas, 2 fileiras): lista `FEATURES` no topo do arquivo (`id`, `title`, `image`, `description`). A imagem de cada card é um link para a seção de detalhe com o mesmo `id`.
+
+   | Card | Imagem | Descrição |
+   | --- | --- | --- |
+   | Aplicações IOT (`iot`) | `iot.jpg` | Projetos de Integração com dispositivos Residenciais e Móveis. |
+   | IA e Automação (`automacao`) | `automacao.jpg` | Projetos de Automação e Integração de Hardwares com IA |
+   | Web e Mobile (`web-mobile`) | `webmob.jpg` | Desenvolvimento Back End, Front e App Mobile |
+   | Programação Desk (`desk`) | `desk.jpg` | Desenvolvimento e Integração de aplicações Desk |
+   | Desenvolvimento e Integração DB (`database`) | `database.jpg` | Aplicações Database PostgreSQL e MySQL (Neon e Aiven) |
+   | Em Desenvolvimento (`em-desenvolvimento-3`) | `pci.jpg` | Aplicação em Desenvolvimento |
+
+4. **Tópico "Testes e Download"** (`#teste-downloads`): título pequeno, discreto, alinhado à esquerda (`.topic`). Sem conteúdo ainda.
+5. **Seções de detalhe**: uma por card, geradas da mesma lista `FEATURES` (título, descrição, bloco cinza em degradê com o símbolo `circuito-cinza.svg` e o texto "Em desenvolvimento", e o link "← Voltar aos projetos" para `#recursos`).
+6. **Rodapé**: marca "AmauryProjects" e, centralizado, "Copyright © 2026 Amaury Huerb Simões" (ano escrito direto no código).
+
+### Efeitos visuais (`src/styles.css`)
+
+- Token `--neon`: `#39ff14` (dark) e `#1f51ff` (light). Todos os efeitos neon usam esse token.
+- Cada card tem caixa com borda neon, brilho ao redor (mais forte no hover) e um brilho que percorre a borda (`@property --glow-angle` + `conic-gradient`, 4s).
+- O bloco "Em desenvolvimento" das seções de detalhe tem borda neon pulsante e sombra larga (`@keyframes neon-pulse`, 2.8s).
+- `prefers-reduced-motion` desliga animações.
+- Rolagem suave (`scroll-behavior: smooth`) e `scroll-margin-top: 84px` por causa do cabeçalho fixo.
+- Espaçamentos ajustados a pedido: hero com 32px embaixo; `#recursos` com 40px em cima; seções `.detail` com padding `12px 0 40px`.
+- **Tema light** em cinza suave (pedido: o branco estava forte): fundo `#d5d8df`, barra/faixas `#e0e3e9`, superfície `#e6e8ee`, texto `#1c202b`. `theme-color` do navegador no light: `#d5d8df`.
+- Paleta dark: fundo `#17191f`, barra `#13151a`, superfície `#1d2028`, texto `#edf0f7`, azul oficial `#2B3CF5`.
+
+### Imagens
+
+- Os arquivos originais ficam em `img/` e **devem ser copiados para `public/img/`** (somente o que está em `public/` vai para o site). Se uma imagem for substituída mantendo o nome, copiar de novo para `public/img/` e conferir com `cmp`.
+- Imagens dos cards: **1280 × 800 px (16:10)**; as atuais têm 1312 × 816 e encaixam sem cortes.
+- `public/img/placeholder.svg`: cinza, usado em cards sem imagem.
+- `img/iotfire.jpg`: arquivo adicionado pelo proprietário, ainda sem uso no código (não versionado na última verificação).
 
 ## Estrutura atual
 
 ```text
 Amaury_Automation/
-├── .github/
-│   └── workflows/
-│       └── deploy.yml
+├── .github/workflows/deploy.yml
 ├── .gitignore
 ├── CLAUDE.md
 ├── DocumentacaoTecnica/
@@ -38,13 +77,9 @@ Amaury_Automation/
 ├── package.json
 ├── public/
 │   ├── CNAME
-│   └── img/
-│       ├── circuito-azul.svg
-│       ├── circuito-cinza.svg
-│       └── placeholder.svg
-├── img/
-│   ├── circuito-azul.svg
-│   └── circuito-cinza.svg
+│   └── img/ (circuito-azul.svg, circuito-cinza.svg, placeholder.svg, background_projeto.jpg,
+│            iot.jpg, automacao.jpg, webmob.jpg, desk.jpg, database.jpg, pci.jpg)
+├── img/ (originais das imagens acima)
 ├── src/
 │   ├── App.jsx
 │   ├── main.jsx
@@ -54,48 +89,49 @@ Amaury_Automation/
 
 ### Arquivos importantes
 
-- `src/App.jsx`: página em seções (cabeçalho com menu responsivo e seletor de tema, hero, planos, recursos, logos, depoimentos, FAQ e rodapé). Os dados das seções ficam em constantes no topo do arquivo.
+- `src/App.jsx`: página em seções; dados dos cards na constante `FEATURES`, menu em `NAV_LINKS`.
 - `src/main.jsx`: aplica o tema salvo antes da montagem do React, importa o CSS e monta a página em `#root`.
-- `src/styles.css`: tokens de tema (dark por padrão e light), seletor, componentes das seções e responsividade (breakpoints 860px e 600px).
+- `src/styles.css`: tokens de tema (dark e light), componentes, efeitos neon e responsividade (breakpoints 860px e 600px).
 - `index.html`: HTML inicial, idioma `pt-BR`, metadados, favicon oficial e título da aba.
-- `package.json`: dependências e comandos `dev`, `build` e `preview`.
-- `package-lock.json`: lockfile npm; manter versionado e usar `npm ci` em instalação limpa.
-- `vite.config.js`: configuração Vite e caminho relativo `base: './'`, para funcionar no GitHub Pages com domínio próprio.
-- `public/CNAME`: contém exatamente `automationprojects.top`; durante o build, Vite copia para `dist/CNAME`.
-- `img/circuito-azul.svg`: arquivo original do ícone oficial azul fornecido para o projeto. A cópia em `public/img` é disponibilizada no site e usada na página e como favicon.
-- `img/circuito-cinza.svg`: variação cinza fornecida, mantida para uso futuro.
+- `vite.config.js`: Vite com `base: './'`, para funcionar no GitHub Pages com domínio próprio.
+- `public/CNAME`: exatamente `automationprojects.top`; o Vite copia para `dist/CNAME`.
 - `.github/workflows/deploy.yml`: build e deploy automáticos do GitHub Pages a cada push para `main`, além de execução manual (`workflow_dispatch`).
-- `DocumentacaoTecnica/EstruturaProjeto.md`: guia detalhado para recriar manualmente o projeto do zero.
-- `EstruturaProjeto.md`: guia introdutório semelhante na raiz. A cópia da pasta `DocumentacaoTecnica` é a documentação mais completa.
-- `DocumentacaoTecnica/Atualizar_Git.md`: passos breves para enviar atualizações ao GitHub.
-- `DocumentacaoTecnica/Git_Push.md`: instruções de configuração inicial do remoto e primeiro push.
-- `DocumentacaoTecnica/PublicarGit.md`: publicação do site pelo GitHub Pages e configuração do domínio personalizado.
-- `README.md`: apresentação e comandos básicos para rodar e gerar o build.
+- `DocumentacaoTecnica/` e `EstruturaProjeto.md` (raiz): guias de recriação, Git e publicação. **O guia de estrutura ainda descreve a versão antiga da página (sidebar); atualizar quando o proprietário pedir.**
+- `img/circuito-azul.svg`: ícone oficial azul (`#2B3CF5`), usado na marca e no favicon. `circuito-cinza.svg`: usado nos blocos "Em desenvolvimento".
 
 ## Histórico de decisões e alterações
 
-1. Foi solicitada uma página inicial Vite + React com aparência escura, aproveitando somente as cores do projeto de referência. O texto definido foi “Projetos em Desenvolvimento.” e “Amaury Huerb”.
-2. A pasta de trabalho inicialmente continha apenas `DocumentacaoTecnica/Git_Push.txt`; não havia projeto Vite nem repositório Git local.
-3. Foi criado o projeto web mínimo com React e Vite, sem dependências visuais desnecessárias. A página recebeu fundo `#212121`, texto claro e destaque azul, com grade sutil, brilho azul, centralização e ajustes para telas pequenas.
-4. Foram adicionados `.gitignore`, `README.md`, arquivos Vite/React e documentação para execução e build.
-5. A solicitação para documentar a recriação manual do projeto foi atendida em `DocumentacaoTecnica/EstruturaProjeto.md`; também há uma cópia resumida na raiz. O guia contém pré-requisitos, scaffolding Vite, conteúdo dos arquivos, execução, build, Git e publicação.
-6. O projeto foi inicializado em Git, configurado com remoto `origin` para `https://github.com/amaurysimoes/Amaury_Automation.git`, e enviado para a branch `main`.
-7. Foram criados guias separados para atualizar o Git e publicar o site como página web.
-8. A publicação foi configurada via GitHub Pages e GitHub Actions. O workflow instala Node.js 22, executa `npm ci`, executa `npm run build`, faz upload de `dist` e implanta usando `actions/deploy-pages`.
-9. O endereço planejado para o site passou do endereço padrão do Pages para o domínio próprio `automationprojects.top`.
-10. Para suportar o domínio, `vite.config.js` foi alterado para `base: './'` e `public/CNAME` foi criado com o domínio.
-11. `DocumentacaoTecnica/PublicarGit.md` documenta o DNS esperado, o cadastro em **Settings → Pages → Custom domain**, HTTPS, o fluxo de deploy, diagnóstico e publicação de futuras atualizações.
-12. Foi solicitado que os arquivos e commits não tenham atribuições ou comentários de ferramentas de assistência. Não adicionar essas atribuições aos novos commits.
-13. Foram fornecidos `img/circuito-azul.svg` e `img/circuito-cinza.svg`. O azul do ícone oficial é exatamente `#2B3CF5`; foi adotado como cor de destaque, no brilho e favicon. Os SVGs são copiados para `public/img` para que o Vite os inclua no build; o ícone azul também é exibido na página inicial.
-14. A cor oficial azul foi aplicada ao token de destaque, aos efeitos de brilho, ao ícone exibido na página e ao favicon. Os SVGs originais e suas cópias em `public/img` permanecem no repositório.
-15. Foi adicionado um botão deslizante para alternar entre tema escuro e claro. A escolha persiste em `localStorage`, atualiza a cor da barra do navegador e sincroniza outras abas abertas. O tema escuro continua sendo o padrão para primeiras visitas.
-16. A página inicial evoluiu para uma workspace original, inspirada apenas na organização geral de uma interface de trabalho: sidebar responsiva, breadcrumb, seletor de tema e área vazia para projetos futuros. O conteúdo e a implementação são próprios; a logo já existente é mantida na navegação.
-17. A identidade visual do ícone oficial foi aplicada (commit `3765831`).
-18. O layout foi reorganizado conforme a estrutura do template `master.dev/join`, substituindo a sidebar/workspace por uma página única com seções. Imagens substituídas por placeholders cinza (`public/img/placeholder.svg`) a serem trocados depois. O texto “Projetos em Desenvolvimento” foi mantido como título do hero.
+1. Página inicial Vite + React com aparência escura, usando só as cores do projeto de referência. Texto inicial: “Projetos em Desenvolvimento.” e “Amaury Huerb”.
+2. A pasta continha apenas `DocumentacaoTecnica/Git_Push.txt`; não havia projeto Vite nem repositório Git.
+3. Criado o projeto mínimo com React e Vite, sem dependências visuais desnecessárias.
+4. Adicionados `.gitignore`, `README.md`, arquivos Vite/React e documentação.
+5. Guia de recriação manual em `DocumentacaoTecnica/EstruturaProjeto.md` (cópia resumida na raiz).
+6. Git inicializado, remoto `origin` configurado e enviado para `main`.
+7. Guias separados para atualizar o Git e publicar o site.
+8. Publicação via GitHub Pages e GitHub Actions (Node.js 22, `npm ci`, `npm run build`, `actions/deploy-pages`).
+9. Endereço planejado: domínio próprio `automationprojects.top`.
+10. `vite.config.js` com `base: './'` e `public/CNAME` criado.
+11. `DocumentacaoTecnica/PublicarGit.md` documenta DNS, domínio, HTTPS, deploy e diagnóstico.
+12. Arquivos e commits sem atribuições de ferramentas de assistência.
+13. Fornecidos `img/circuito-azul.svg` e `img/circuito-cinza.svg`; azul oficial `#2B3CF5` adotado como destaque e favicon.
+14. Cor oficial aplicada ao token de destaque, brilhos, ícone da página e favicon.
+15. Botão deslizante de tema escuro/claro com persistência em `localStorage`, `theme-color` e sincronização entre abas.
+16. Página evoluiu para uma workspace com sidebar, breadcrumb e área vazia (depois substituída, ver 18).
+17. Identidade visual do ícone oficial aplicada (commit `3765831`).
+18. Layout reorganizado conforme a estrutura do template `master.dev/join`: página única com seções; imagens substituídas por placeholders cinza.
+19. Seções do template removidas a pedido, uma a uma: planos (Indivíduos/Equipes/Empresas), "O que está incluído?", depoimentos, FAQ, subtítulo/prova social/aviso do hero, links do rodapé, selos de lojas e textos do rodapé ("AMAURY AUTOMATION", "Um espaço para novas ideias"). Links "Blog" e "Recursos" saíram do menu.
+20. Fundo do hero: `background.jpg` foi usado como marca d'água, depois movido para o hero no lugar do quadriculado; trocado por `background_projeto.jpg` (o antigo foi apagado).
+21. Cards definidos com imagens reais e textos (tabela acima). Chave de lista passou a ser o `id`.
+22. Clique na imagem do card leva (rolagem suave) à seção de detalhe correspondente; as seções são geradas da lista `FEATURES`. Título "Projetos" acima dos cards removido por redundância.
+23. Hero: texto "Projetos e Automação" em neon (verde no dark, azul no light). Antes passou por "Painel de Projetos" (removido) e "Projetos em Desenvolvimento".
+24. Menu: "Projetos Exemplo" e "Teste e Downloads" (→ seção `#teste-downloads`, título "Testes e Download", discreto no canto esquerdo).
+25. Cards com borda neon, brilho e brilho percorrendo a borda; blocos "Em desenvolvimento" com borda neon pulsante.
+26. Tema light escurecido para cinza suave.
+27. Copyright centralizado no rodapé: "Copyright © 2026 Amaury Huerb Simões".
+28. `webmob.jpg` substituído por nova versão (mesmo nome); cópia em `public/img` atualizada.
+29. Cards 4 e 5 definidos: **Programação Desk** (`desk.jpg`) e **Desenvolvimento e Integração DB** (`database.jpg`; texto "MySQL" com a grafia correta). Apenas o último card segue como "Em Desenvolvimento" (`pci.jpg`).
 
-## Histórico de commits já enviados
-
-Todos estes commits foram enviados para `origin/main`:
+## Histórico de commits enviados
 
 | Commit | Mensagem |
 | --- | --- |
@@ -108,38 +144,29 @@ Todos estes commits foram enviados para `origin/main`:
 | `6c04bdf` | Preparar domínio personalizado para o site |
 | `eec3456` | Registrar histórico e continuidade do projeto |
 | `3765831` | Aplicar identidade visual do ícone oficial |
+| `4e5cc47` | Reorganizar página em seções com imagem de fundo e cards de projetos |
+| `b3e3d95` | update |
+| `04d18eb` | Update |
 
-O commit `ba01788` também incluiu `DocumentacaoTecnica/Git_Push.md`, que já existia no workspace e tinha o URL e os comandos iniciais de GitHub fornecidos para o repositório. O histórico é aditivo; não reescrever/amendar commits existentes.
+O histórico é aditivo; não reescrever/amendar commits existentes.
 
 ## Estado confirmado na última verificação
 
-- Branch local: `main`.
-- Remoto: `origin` → `https://github.com/amaurysimoes/Amaury_Automation.git`.
-- A branch local estava sincronizada com `origin/main` antes de criar este histórico.
-- O build `npm run build` passou após a configuração do domínio personalizado.
-- O deploy do commit `6c04bdf` no workflow **Deploy to GitHub Pages** terminou com sucesso.
-- A configuração Pages consultada pela API do GitHub indicava `build_type: workflow`, `https_enforced: true`, porém `cname: null`; portanto o domínio personalizado ainda não havia sido cadastrado nas configurações do repositório.
-- A última consulta DNS encontrou `automationprojects.top A → 208.115.225.220`, que não é um IP do GitHub Pages. O domínio, portanto, ainda não estava direcionado a este site.
-- O último status DNS confirmado foi em 4 de novembro de 2026. Consultar novamente antes de tirar conclusões sobre o estado atual.
+- Branch local `main`, sincronizada com `origin/main` em `04d18eb`.
+- **Alterações ainda não commitadas** (itens 28 e 29): `src/App.jsx` (cards Desk e DB), `img/webmob.jpg` e `public/img/webmob.jpg` (nova versão), `img/desk.jpg`, `img/database.jpg` e suas cópias em `public/img/`, além de `img/iotfire.jpg` (sem uso). Este `CLAUDE.md` também.
+- O build `npm run build` passou após essas alterações.
+- Deploy do commit `4e5cc47` falhou por timeout na etapa de publicação; o deploy do commit seguinte (`b3e3d95`) terminou com sucesso. Nada foi conferido depois disso.
+- A API do Pages indicava `cname: automationprojects.top` (domínio cadastrado) e `https_enforced: true`. Em 4 de novembro de 2026 o DNS já apontava para os IPs do GitHub Pages (185.199.x.x), mas `https://automationprojects.top/` ainda não respondia (certificado pendente) e o `http` devolvia 403. Como o `github.io` redireciona os arquivos do site para o domínio, o site pode aparecer quebrado até o certificado sair. **Consultar novamente antes de concluir qualquer coisa.**
 - Não registrar, incluir ou expor credenciais, tokens ou segredos neste arquivo.
 
-## O que falta para o domínio próprio funcionar
+## Pendências conhecidas
 
-1. No painel do provedor que gerencia o DNS de `automationprojects.top`, substituir o registro `A` atual (`208.115.225.220`) pelos quatro registros abaixo. Remover registros conflitantes para o host `@`, incluindo registros AAAA antigos se houver:
-
-   | Tipo | Host | Valor |
-   | --- | --- | --- |
-   | A | `@` | `185.199.108.153` |
-   | A | `@` | `185.199.109.153` |
-   | A | `@` | `185.199.110.153` |
-   | A | `@` | `185.199.111.153` |
-
-2. Opcionalmente, para `www.automationprojects.top`, criar `CNAME`, host `www`, apontando para `amaurysimoes.github.io`.
-3. No GitHub, abrir `https://github.com/amaurysimoes/Amaury_Automation/settings/pages`, informar `automationprojects.top` no campo **Custom domain** e salvar. A API ainda mostrava `cname: null` na última consulta; essa etapa precisa ser verificada.
-4. Aguardar propagação do DNS e emissão/validação do certificado HTTPS. Ativar **Enforce HTTPS** quando o GitHub disponibilizar a opção.
-5. Confirmar que `https://automationprojects.top/` abre o site. Propagação DNS pode demorar; consultar novamente DNS antes de diagnosticar.
-
-Os registros A do provedor não foram alterados pelo projeto. A troca pode interromper qualquer serviço que ainda esteja usando o IP antigo `208.115.225.220`; verificar isso com o proprietário do domínio antes de alterá-los.
+- Confirmar que `https://automationprojects.top/` abre o site novo e ativar **Enforce HTTPS** quando disponível; opcionalmente criar `CNAME` `www` → `amaurysimoes.github.io`.
+- Definir imagem e texto do último card "Em Desenvolvimento" e o conteúdo real das seções de detalhe (hoje com bloco cinza "Em desenvolvimento").
+- Definir o conteúdo da seção "Testes e Download" e o destino dos botões "Entrar" e "Participar".
+- Decidir o uso de `img/iotfire.jpg`.
+- Limpar CSS sem uso (estilos de planos, depoimentos, FAQ, logos, avatares e aviso do hero) e atualizar `EstruturaProjeto.md`/`README.md` para a página atual.
+- O ano do copyright está fixo no código.
 
 ## Comandos usuais para continuar
 
@@ -151,7 +178,7 @@ npm ci
 npm run dev
 ```
 
-Abrir o endereço local mostrado pelo Vite, normalmente `http://localhost:5173`. Encerrar com `Ctrl+C`.
+Abrir `http://localhost:5173`. Encerrar com `Ctrl+C` (no Windows responder `s` à pergunta sobre finalizar o arquivo em lotes).
 
 ### Validar produção
 
@@ -170,20 +197,24 @@ git commit -m "Descrever a alteração"
 git push
 ```
 
-O push para `main` inicia o deploy do GitHub Pages. Conferir a execução na aba **Actions** ou, se o GitHub CLI estiver disponível e autenticado:
+O push para `main` inicia o deploy do GitHub Pages. Conferir na aba **Actions** ou:
 
 ```powershell
 gh run list --workflow deploy.yml --limit 5
 ```
 
-Não versionar `node_modules` ou `dist` (ambos estão no `.gitignore`). Não usar `git push --force` para resolver divergências; primeiro sincronizar com `git pull --rebase` e tratar eventuais conflitos.
+Se o `git add .` for seguido de `git commit` e o Git disser que há arquivos não preparados, algum arquivo foi gravado pelo editor depois do `add`; salvar tudo e repetir com `git add -A`.
+
+Não versionar `node_modules` ou `dist` (estão no `.gitignore`). Não usar `git push --force`; primeiro `git pull --rebase`.
 
 ## Orientação para futuras alterações
 
 - Manter React + Vite; não trocar a stack sem pedido.
-- Preservar o texto inicial e a paleta acordada, a menos que haja solicitação para alterá-los.
-- Tratar `#2B3CF5` do SVG `img/circuito-azul.svg` como azul oficial; sincronizar `public/img/circuito-azul.svg`, o favicon, o ícone da página, os tokens e os exemplos de CSS/documentação ao atualizar a identidade.
-- Ao mexer em estilos ou dependências, conferir o comportamento local e executar `npm run build`.
+- **Atualizar este arquivo a cada alteração** (regra permanente acima).
+- Preservar a paleta acordada, a menos que haja pedido para alterá-la; usar o token `--neon` para efeitos neon.
+- Tratar `#2B3CF5` de `img/circuito-azul.svg` como azul oficial; sincronizar `public/img/circuito-azul.svg`, o favicon, o ícone da página e os tokens ao atualizar a identidade.
+- Ao mexer em estilos, imagens ou dependências, conferir o comportamento local e executar `npm run build`.
+- Imagem nova ou substituída: copiar de `img/` para `public/img/`.
 - Ao alterar publicação, manter coerentes o `base` do Vite, `public/CNAME`, workflow e instruções.
 - Atualizar a documentação técnica quando o processo de criação, execução ou publicação mudar.
-- Fazer commits descritivos, sem atribuições de ferramentas, e nunca incluir segredos.
+- Commits descritivos, sem atribuições de ferramentas, e nunca incluir segredos.
