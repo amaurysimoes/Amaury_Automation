@@ -135,6 +135,8 @@ Amaury_Automation/
 
 31. Painéis "Em desenvolvimento" das seções de detalhe (`.detail__soon`): o degradê cinza foi trocado pela imagem `background_card.jpg` (1568 × 672, estilo código verde; proporção quase igual à do painel 16:7). O símbolo `circuito-cinza.svg` e o texto "Em desenvolvimento" continuam centralizados no mesmo lugar; borda neon pulsante mantida. Cópia em `public/img/background_card.jpg`.
 
+32. Primeira etapa da integração do projeto externo `C:\Automaca_Amaury` (programa Python + site Firebase): a API FastAPI (`api_reder` do original) foi copiada para **`api_render/`** (`main.py`, `its_xlsx.py`, `planilha_modelo.py`, `requirements.txt`, `ca.pem`). Sem `.env` e sem `__pycache__`; conferido que o código não tem senhas escritas (as chaves vêm de variáveis de ambiente). A pasta vazia `backend_iot` foi removida. **Ainda não commitado.** Contexto: o site `https://amauryesp-active.web.app/` falha com "Failed to fetch" porque o serviço `automacao-api` do Render (`automacao-api-1awz.onrender.com`) não existe mais; o repositório `amaurysimoes/Automacao_Amaury` (privado) continua intacto.
+
 ## Histórico de commits enviados
 
 | Commit | Mensagem |
@@ -174,6 +176,8 @@ O histórico é aditivo; não reescrever/amendar commits existentes.
 - Decidir o uso de `img/iotfire.jpg`.
 - Limpar CSS sem uso (estilos de planos, depoimentos, FAQ, logos, avatares e aviso do hero) e atualizar `EstruturaProjeto.md`/`README.md` para a página atual.
 - O ano do copyright está fixo no código.
+- **Integração do backend (em andamento):** decidir se `api_render/` vai neste repositório (**público**: o código da API ficaria visível, as senhas não) ou em repositório privado separado (o proprietário disse antes que quer tudo oculto). Depois: commit/push, criar o serviço no Render (Root Directory `api_render`, Build `pip install -r requirements.txt`, Start `uvicorn main:app --host 0.0.0.0 --port $PORT`, Health Check `/saude`, `PYTHON_VERSION=3.12.3`) e cadastrar no painel do Render as variáveis `AIVEN_HOST`, `AIVEN_PORT`, `AIVEN_USER`, `AIVEN_PASSWORD`, `AIVEN_DB_NAME`, `NEON_HOST`, `NEON_PORT`, `NEON_USER`, `NEON_PASSWORD`, `NEON_DB_NAME`, `NEON_SSLMODE`, `EMAIL_PERMITIDO` (opcionais: `NEON_DB_SCHEMA`, `FIREBASE_PROJECT`). Se o endereço do Render mudar, trocar `API_URL` em `fire_page/src/api.js` (projeto original) e republicar o site no Firebase.
+- **Plano de downloads (decisão em 5 de novembro de 2026, ainda não executado):** vai entrar no projeto um sistema com parte Python e parte Firebase web, a ser desmembrado por partes e ligado à seção "Testes e Download". Hospedagem do executável: **GitHub Releases** no próprio repositório `Amaury_Automation` (grátis, link direto, até 2 GB por arquivo); não usar Google Drive (aviso de vírus em arquivos grandes, sem link direto). Não é preciso criar outro repositório agora; só vale criar um repositório separado se o código do projeto Python precisar de histórico próprio ou ficar privado (este repositório é público). Publicar o executável em `.zip`, com o hash SHA-256 e um aviso na página sobre o alerta do Windows (executável sem assinatura). Antes de colocar qualquer código do projeto no repositório, **ler o conteúdo e remover chaves, credenciais e arquivos de conta de serviço**; nada dentro de `public/` deve conter segredos, pois tudo ali é publicado no site. Os projetos podem ficar em pastas dentro deste repositório (por exemplo `projetos/<nome>/`), fora de `public/` e `src/`.
 
 ## Comandos usuais para continuar
 
