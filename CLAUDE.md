@@ -34,10 +34,10 @@ Página única, na ordem:
    | Web e Mobile (`web-mobile`) | `webmob.jpg` | Desenvolvimento Back End, Front e App Mobile |
    | Programação Desk (`desk`) | `desk.jpg` | Desenvolvimento e Integração de aplicações Desk |
    | Desenvolvimento e Integração DB (`database`) | `database.jpg` | Aplicações Database PostgreSQL e MySQL (Neon e Aiven) |
-   | Em Desenvolvimento (`em-desenvolvimento-3`) | `pci.jpg` | Aplicação em Desenvolvimento |
+   | Em Desenvolvimento... (`em-desenvolvimento-3`) | `pci.jpg` | Sempre haverá um novo projeto! |
 
 4. **Tópico "Testes e Download"** (`#teste-downloads`): título pequeno, discreto, alinhado à esquerda (`.topic`). Sem conteúdo ainda.
-5. **Seções de detalhe**: uma por card, geradas da mesma lista `FEATURES` (título, descrição, bloco cinza em degradê com o símbolo `circuito-cinza.svg` e o texto "Em desenvolvimento", e o link "← Voltar aos projetos" para `#recursos`).
+5. **Seções de detalhe**: uma por card, geradas da mesma lista `FEATURES` (título, descrição, painel com fundo `background_card.jpg`, o símbolo `circuito-cinza.svg` e o texto "Em desenvolvimento", e o link "← Voltar aos projetos" para `#recursos`).
 6. **Rodapé**: marca "AmauryProjects" e, centralizado, "Copyright © 2026 Amaury Huerb Simões" (ano escrito direto no código).
 
 ### Efeitos visuais (`src/styles.css`)
@@ -77,7 +77,7 @@ Amaury_Automation/
 ├── package.json
 ├── public/
 │   ├── CNAME
-│   └── img/ (circuito-azul.svg, circuito-cinza.svg, placeholder.svg, background_projeto.jpg,
+│   └── img/ (circuito-azul.svg, circuito-cinza.svg, placeholder.svg, background_projeto.jpg, background_card.jpg,
 │            iot.jpg, automacao.jpg, webmob.jpg, desk.jpg, database.jpg, pci.jpg)
 ├── img/ (originais das imagens acima)
 ├── src/
@@ -131,6 +131,10 @@ Amaury_Automation/
 28. `webmob.jpg` substituído por nova versão (mesmo nome); cópia em `public/img` atualizada.
 29. Cards 4 e 5 definidos: **Programação Desk** (`desk.jpg`) e **Desenvolvimento e Integração DB** (`database.jpg`; texto "MySQL" com a grafia correta). Apenas o último card segue como "Em Desenvolvimento" (`pci.jpg`).
 
+30. Último card alterado para o título **"Em Desenvolvimento..."** e a descrição **"Sempre haverá um novo projeto!"** (imagem `pci.jpg`). Medida informada para imagens do bloco das seções de detalhe: 1600 × 700 px (16:7).
+
+31. Painéis "Em desenvolvimento" das seções de detalhe (`.detail__soon`): o degradê cinza foi trocado pela imagem `background_card.jpg` (1568 × 672, estilo código verde; proporção quase igual à do painel 16:7). O símbolo `circuito-cinza.svg` e o texto "Em desenvolvimento" continuam centralizados no mesmo lugar; borda neon pulsante mantida. Cópia em `public/img/background_card.jpg`.
+
 ## Histórico de commits enviados
 
 | Commit | Mensagem |
@@ -153,9 +157,9 @@ O histórico é aditivo; não reescrever/amendar commits existentes.
 
 ## Estado confirmado na última verificação
 
-- Branch local `main`, sincronizada com `origin/main` após o commit `3350b04` (itens 28 e 29 já enviados, junto com `img/iotfire.jpg`, que continua sem uso). Um commit seguinte registra apenas este histórico.
+- Branch local `main`, sincronizada com `origin/main` após o envio dos itens 28 a 31 (`img/iotfire.jpg` continua sem uso). Um commit seguinte registra apenas o hash no histórico.
 - O build `npm run build` passou antes do envio.
-- O deploy do commit `3350b04` ainda não foi conferido (verificar em **Actions**).
+- Deploys conferidos: o do commit `cfa7faf` terminou com sucesso. O deploy dos itens 30 e 31 ainda não foi conferido (verificar em **Actions**).
 - Deploy do commit `4e5cc47` falhou por timeout na etapa de publicação; o deploy do commit seguinte (`b3e3d95`) terminou com sucesso. Nada foi conferido depois disso.
 - A API do Pages indicava `cname: automationprojects.top` (domínio cadastrado) e `https_enforced: true`. Em 4 de novembro de 2026 o DNS já apontava para os IPs do GitHub Pages (185.199.x.x), mas `https://automationprojects.top/` ainda não respondia (certificado pendente) e o `http` devolvia 403. Como o `github.io` redireciona os arquivos do site para o domínio, o site pode aparecer quebrado até o certificado sair. **Consultar novamente antes de concluir qualquer coisa.**
 - Não registrar, incluir ou expor credenciais, tokens ou segredos neste arquivo.
@@ -163,7 +167,7 @@ O histórico é aditivo; não reescrever/amendar commits existentes.
 ## Pendências conhecidas
 
 - Confirmar que `https://automationprojects.top/` abre o site novo e ativar **Enforce HTTPS** quando disponível; opcionalmente criar `CNAME` `www` → `amaurysimoes.github.io`.
-- Definir imagem e texto do último card "Em Desenvolvimento" e o conteúdo real das seções de detalhe (hoje com bloco cinza "Em desenvolvimento").
+- Definir a imagem do último card ("Em Desenvolvimento...", hoje `pci.jpg`) e o conteúdo real das seções de detalhe (hoje com bloco cinza "Em desenvolvimento").
 - Definir o conteúdo da seção "Testes e Download" e o destino dos botões "Entrar" e "Participar".
 - Decidir o uso de `img/iotfire.jpg`.
 - Limpar CSS sem uso (estilos de planos, depoimentos, FAQ, logos, avatares e aviso do hero) e atualizar `EstruturaProjeto.md`/`README.md` para a página atual.

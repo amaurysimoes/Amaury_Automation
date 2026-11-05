@@ -41,9 +41,9 @@ const FEATURES = [
   },
   {
     id: 'em-desenvolvimento-3',
-    title: 'Em Desenvolvimento',
+    title: 'Em Desenvolvimento...',
     image: './img/pci.jpg',
-    description: 'Aplicação em Desenvolvimento',
+    description: 'Sempre haverá um novo projeto!',
   },
 ];
 

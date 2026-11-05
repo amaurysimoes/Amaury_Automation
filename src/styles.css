@@ -707,7 +707,7 @@ html {
   border-radius: 14px;
 }
 
-/* Fundo cinza degradê com o símbolo da automação, até as aplicações ficarem prontas */
+/* Painel com imagem de fundo e o símbolo da automação, até as aplicações ficarem prontas */
 .detail__soon {
   display: flex;
   flex-direction: column;
@@ -715,7 +715,7 @@ html {
   justify-content: center;
   gap: 14px;
   border: 1px solid var(--neon);
-  background: linear-gradient(135deg, #4b5563 0%, #2f343d 55%, #1f2229 100%);
+  background: #0b1210 url("/img/background_card.jpg") center / cover no-repeat;
   color: rgb(255 255 255 / 45%);
   animation: neon-pulse 2.8s ease-in-out infinite;
 }
