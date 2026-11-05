@@ -147,14 +147,15 @@ Amaury_Automation/
 | `4e5cc47` | Reorganizar página em seções com imagem de fundo e cards de projetos |
 | `b3e3d95` | update |
 | `04d18eb` | Update |
+| `3350b04` | Adicionar cards Programação Desk e Integração DB e atualizar histórico do projeto |
 
 O histórico é aditivo; não reescrever/amendar commits existentes.
 
 ## Estado confirmado na última verificação
 
-- Branch local `main`, sincronizada com `origin/main` em `04d18eb`.
-- **Alterações ainda não commitadas** (itens 28 e 29): `src/App.jsx` (cards Desk e DB), `img/webmob.jpg` e `public/img/webmob.jpg` (nova versão), `img/desk.jpg`, `img/database.jpg` e suas cópias em `public/img/`, além de `img/iotfire.jpg` (sem uso). Este `CLAUDE.md` também.
-- O build `npm run build` passou após essas alterações.
+- Branch local `main`, sincronizada com `origin/main` após o commit `3350b04` (itens 28 e 29 já enviados, junto com `img/iotfire.jpg`, que continua sem uso). Um commit seguinte registra apenas este histórico.
+- O build `npm run build` passou antes do envio.
+- O deploy do commit `3350b04` ainda não foi conferido (verificar em **Actions**).
 - Deploy do commit `4e5cc47` falhou por timeout na etapa de publicação; o deploy do commit seguinte (`b3e3d95`) terminou com sucesso. Nada foi conferido depois disso.
 - A API do Pages indicava `cname: automationprojects.top` (domínio cadastrado) e `https_enforced: true`. Em 4 de novembro de 2026 o DNS já apontava para os IPs do GitHub Pages (185.199.x.x), mas `https://automationprojects.top/` ainda não respondia (certificado pendente) e o `http` devolvia 403. Como o `github.io` redireciona os arquivos do site para o domínio, o site pode aparecer quebrado até o certificado sair. **Consultar novamente antes de concluir qualquer coisa.**
 - Não registrar, incluir ou expor credenciais, tokens ou segredos neste arquivo.
