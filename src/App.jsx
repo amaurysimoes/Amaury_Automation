@@ -2,6 +2,7 @@ import { lazy, Suspense, useCallback, useEffect, useState } from 'react';
 
 // Painel temporário carregado só quando é aberto (o Firebase não pesa no carregamento do portal).
 const VetorizacaoImagens = lazy(() => import('./dbvision/VetorizacaoImagens.jsx'));
+const PinosESP = lazy(() => import('./automacao/PinosESP.jsx'));
 
 const THEME_STORAGE_KEY = 'amaury-automation-theme';
 const PLACEHOLDER = './img/placeholder.svg';
@@ -28,6 +29,7 @@ const FEATURES = [
     title: 'Aplicações IOT',
     image: './img/iot.jpg',
     description: 'Projetos de Integração com dispositivos Residenciais e Móveis.',
+    tools: [{ id: 'pinos-esp', label: 'AUTOMAÇÃO ESP' }],
   },
   {
     id: 'automacao',
@@ -360,6 +362,12 @@ function App() {
           </div>
         </div>
       </footer>
+
+      {openTool === 'pinos-esp' && (
+        <Suspense fallback={null}>
+          <PinosESP onClose={closeTool} />
+        </Suspense>
+      )}
 
       {openTool === 'vetorizacao-imagens' && (
         <Suspense fallback={null}>
